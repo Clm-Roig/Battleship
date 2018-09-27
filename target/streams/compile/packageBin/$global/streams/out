@@ -1,1 +1,13 @@
-[0m[[0m[0mdebug[0m] [0m[0mJar uptodate: /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/battleship_2.12-0.1.0-SNAPSHOT.jar[0m
+[0m[[0m[0minfo[0m] [0m[0mPackaging /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/battleship_2.12-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Hello$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/classes/battleship/Hello$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Greeting.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/classes/battleship/Greeting.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Hello$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/classes/battleship/Hello$delayedInit$body.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship/Hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/classes/battleship/Hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	battleship[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/clement/Bureau/projets_informatique/Battleship/target/scala-2.12/classes/battleship[0m
+[0m[[0m[0minfo[0m] [0m[0mDone packaging.[0m
