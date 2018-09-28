@@ -1,7 +1,7 @@
 package battleship
 import Console.{WHITE, RED, CYAN, UNDERLINED}
 
-object Hello extends Greeting with App {
+object Hello extends Greeting {
     println(greeting)
 }
 
