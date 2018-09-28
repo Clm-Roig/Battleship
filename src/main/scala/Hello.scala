@@ -2,11 +2,11 @@ package battleship
 import Console.{WHITE, RED, CYAN, UNDERLINED}
 
 object Hello extends Greeting with App {
-  println(greeting)
+    println(greeting)
 }
 
 trait Greeting {
-    lazy val greeting: String = s"""$WHITE
+  lazy val greeting: String = s"""$WHITE
     MY GRID:
             A   B   C   D   E   F   G   H   I   J
            _______________________________________
