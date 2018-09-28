@@ -1,4 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0m/home/clement/Bureau/projets_informatique/Battleship/src/main/scala/BattleShipGame.scala:3:32: trait App is a trait; does not take constructor arguments[0m
-[0m[[0m[31merror[0m] [0m[0mobject BattleSchipGame extends App ([0m
-[0m[[0m[31merror[0m] [0m[0m                               ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m

@@ -1,7 +1,7 @@
 package battleship
 
 case class GameState(
-    val player1: Player,
-    val player2: Player,
-    val playerWhoBegins: Player
+    player1: Option[Player] = None,
+    player2: Option[Player] = None,
+    playerWhoBegins: Int = 0 
 )
