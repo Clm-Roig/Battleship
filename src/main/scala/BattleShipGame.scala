@@ -1,5 +1,10 @@
 package battleship
 
 object BattleSchipGame extends App {
-    println("Hello world")
+    val state = GameState()
+    mainLoop(state)
+
+    def mainLoop(state: GameState) {
+        println("Hello World")
+    }
 }
