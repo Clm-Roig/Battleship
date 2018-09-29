@@ -53,6 +53,21 @@ class GridSpec extends fixture.FunSuite {
             case _ => false
         })
     }
+
+    // ===== getCellsToCheck() tests
+    test("getCellsToCheck(): common usage.") { f => 
+        val cells = f.grid.getCellsToCheck(0,0,"S",2)
+        assert(cells.sameElements(Array((0,1),(0,2))))
+
+        val cells2 = f.grid.getCellsToCheck(1,1,"E",3)
+        assert(cells2.sameElements(Array((2,1),(3,1),(4,1))))
+    }
+
+    // ===== isShipHere() tests
+    test("isShipHere(): common usage.") { f => 
+        val newGrid = f.grid.addShip(1,1,f.ship,"S")
+        assert(newGrid.isShipHere(1,2))
+    }
     
     // ===== nextCell() tests
     test("nextCell(): common usage.") { f => 
