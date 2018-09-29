@@ -18,9 +18,10 @@ import Console.{WHITE, RED, CYAN, UNDERLINED}
     @param ships ships on the grid
     @param size size of the grid (default: 10)
     @param positions 2 dimensions array representing 
-        the cells of the grid, each cell can be water or ship (hit or not for both).
+        the cells of the grid, each cell can be water or ship (hit or not for both)
+    @param output output class used to display messages
  */
-case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]]) {
+case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]], output: Output = ConsoleOutput()) {
 
     // ===== Constructors
     def this(size: Int) = {
@@ -161,7 +162,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
     /**
         Display the grid to the player who owns it.
     */
-    def printToSelf(): Unit = {
+    def displayToSelf(): Unit = {
         var res = s"""$WHITE
         MY GRID:
             A   B   C   D   E   F   G   H   I   J
@@ -186,7 +187,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
             }
         }
         res = res.concat("|\n")
-        print(res)
+        this.output.display(res)
     }
 }
 

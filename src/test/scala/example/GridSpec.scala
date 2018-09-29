@@ -88,9 +88,9 @@ class GridSpec extends fixture.FunSuite {
 
     // ===== printToSelf() tests
     // TODO : change the way of printing data to allow to test it. 
-    test("printToSelf()") { f => 
+    test("displayToSelf()") { f => 
         val newGrid = f.grid.addShip(1,1,f.ship,"S")
         val newGrid2 = newGrid.addShip(5,5, new Ship("Destroyer", "D_hit", 3), "E")
-        newGrid2.printToSelf()
+        newGrid2.displayToSelf()
     }
 }
