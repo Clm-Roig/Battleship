@@ -6,7 +6,7 @@ class ShipSpec extends FunSuite {
         assert(new Ship("ship", 5).lifePoints == 5)
     }
 
-    test("isSunk(): should return true if lifePoints == 0") {
+    test("isSunk(): should return true if lifePoints == 0.") {
         assert(new Ship("ship", 5, 0).isSunk)
     }
 

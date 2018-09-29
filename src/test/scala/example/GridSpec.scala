@@ -16,9 +16,15 @@ class GridSpec extends fixture.FunSuite {
     }
 
     // x and y
-    test("addShip(): if x or y are not between 0 and 9, should return None.") { f =>
+    test("addShip(): if x or y are not between 0 and 9, should throw a CoordinateException.") { f =>
         val (x,y, dir) = (-3, 5, "N")
-        assert(f.grid.addShip(x, y, f.ship, dir).isEmpty)
+        assertThrows[CoordinateException] {
+            f.grid.addShip(x, y, f.ship, dir)
+        }
+        val (x2,y2) = (3, 50)
+        assertThrows[CoordinateException] {
+            f.grid.addShip(x2, y2, f.ship, dir)
+        }
     } 
 
     test("addShip(): x and y must be between 0 and 9.") { f =>
@@ -27,9 +33,11 @@ class GridSpec extends fixture.FunSuite {
     } 
 
     // direction
-    test("addShip(): direction must be S, N, W or E. If not, should return None.") { f =>
+    test("addShip(): direction must be S, N, W or E. If not, should throw a InvalidDirectionException.") { f =>
         val (x,y, dir) = (3, 5, "X")
-        assert(f.grid.addShip(x, y, f.ship, dir).isEmpty)
+        assertThrows[InvalidDirectionException] {
+            f.grid.addShip(x, y, f.ship, dir)
+        }
     }
 
     test("addShip(): direction must be S, N, W or E.") { f =>

@@ -12,18 +12,21 @@ case class Grid (ships: Array[Ship] = Array(), size: Int = 10,
    
    /**
     Add a ship to the grid. The ship will be placed at (x,y) and facing the direction given.
-    @param x x coordinate, equivalent to A,B,C,...,J converted in Int, must be between 0 and 9
-    @param y y coordinate, must be between 0 and 9
+    @param x x coordinate, equivalent to A,B,C,...,J converted in Int
+    @param y y coordinate
     @param s Ship to place on the Grid 
-    @param direction direction of the ship, must € ["S", "W", "E", "N"]
+    @param direction direction of the ship
 
+    @throws CoordinateException if x or y are not between 0 and 9
+    @throws InvalidDirectionException if direction is not part of VALID_DIRECTIONS
     @return Option[Grid], Some if the Ship was correctly added, else None.
     */
     def addShip(x: Int, y: Int, s: Ship, direction: String): Option[Grid] = {
         // Tests data provided
-        if(x > 9|| x < 0) return None
-        if(y > 9|| y < 0) return None
-        if(!Grid.VALID_DIRECTIONS.contains(direction)) return None 
+        if(x > 9|| x < 0) throw new CoordinateException("x must be between 0 and 9.")
+        if(y > 9|| y < 0) throw new CoordinateException("y must be between 0 and 9.")
+        if(!Grid.VALID_DIRECTIONS.contains(direction)) 
+            throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
 
         Some(Grid())
     }
@@ -40,3 +43,10 @@ case class Grid (ships: Array[Ship] = Array(), size: Int = 10,
 object Grid {
     def VALID_DIRECTIONS = List("S", "N", "W", "E")
 }
+
+// Grid exceptions 
+case class CoordinateException(private val message: String = "", 
+    private val cause: Throwable = None.orNull) extends Exception(message, cause) 
+
+case class InvalidDirectionException(private val message: String = "", 
+    private val cause: Throwable = None.orNull) extends Exception(message, cause) 
