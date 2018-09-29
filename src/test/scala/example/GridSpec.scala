@@ -57,10 +57,10 @@ class GridSpec extends fixture.FunSuite {
     // ===== getCellsToCheck() tests
     test("getCellsToCheck(): common usage.") { f => 
         val cells = f.grid.getCellsToCheck(0,0,"S",2)
-        assert(cells.sameElements(Array((0,1),(0,2))))
-
-        val cells2 = f.grid.getCellsToCheck(1,1,"E",3)
-        assert(cells2.sameElements(Array((2,1),(3,1),(4,1))))
+        assert(cells.sameElements(Array((0,0),(0,1),(0,2))))
+        
+        val cells2 = f.grid.getCellsToCheck(1,1,"E",3)        
+        assert(cells2.sameElements(Array((1,1),(2,1),(3,1),(4,1))))    
     }
 
     // ===== isShipHere() tests

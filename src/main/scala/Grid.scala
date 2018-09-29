@@ -48,8 +48,8 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
             throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
 
         // Attempt to place the Ship
-        val cellsToCheck = this.getCellsToCheck(x,y,direction,s.size)
-        
+        val cellsToCheck = (x,y) +: this.getCellsToCheck(x,y,direction,s.size)
+
         // Test if it overlaps a Ship
         if (cellsToCheck.forall(tuple => this.isShipHere(tuple._1, tuple._2)))
             throw new ShipOverlapsException("The Ship you are trying to add is overlapping another one.")
@@ -59,26 +59,31 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
             tuple._1 < 0||tuple._2 < 0||tuple._1 >= this.size||tuple._2 >= this.size
         })) throw new ShipOutOfGridException("The Ship you are trying to add is out of the grid.")
 
+        // Everything ok, place the Ship
+        /*
+        val newPositions = None
+        this.copy(positions = newPositions)
+        */
         new Grid()
     }
 
     /**
         Return the cells passed through from the coordinate(x,y) according to the 
-        direction and the nbOfCells given. The initial cell is not included in the result.
+        direction and the nbOfCells given. The initial cell is included in the result.
         @param x x coordinate of the initial cell
         @param y y coordinate of the initial cell
         @param direction direction of the next cell, must be in VALID_DIRECTIONS
         @param nbOfCells number of cells to pass through
-        @param previousCells celles passed through previously
+        @param previousCells cells passed through previously
 
         @return Array[(Int,Int)] the cells coordinates (x,y) passed through.
     */
     def getCellsToCheck(x: Int, y: Int, direction: String, nbOfCells: Int, 
     previousCells: Array[(Int, Int)] = Array()): Array[(Int, Int)] = {
-        if(nbOfCells <= 0) previousCells
+        if(nbOfCells <= 0) previousCells :+ (x,y)
         else {
             val nextCell = this.nextCell(x,y,direction)
-            val cells = previousCells :+ nextCell
+            val cells = previousCells :+ (x,y)
             getCellsToCheck(nextCell._1, nextCell._2, direction, nbOfCells - 1, cells)
         }            
     }
