@@ -160,9 +160,9 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Display the grid to the player who owns it.
+        String representation to be seen by the owner of the grid.
     */
-    def displayToSelf(): Unit = {
+    def toStringToSelf(): String = {
         var res = s"""$WHITE
         MY GRID:
             A   B   C   D   E   F   G   H   I   J
@@ -178,7 +178,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
             }
         }
         res = res.concat("|\n")
-        this.output.display(res)
+        res
     }
 
     /**
@@ -190,15 +190,17 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
             "X_hit" => """$RED█X$WHITE"""
     */
     def getSelfCaseElement(symbol: String): String = {
-        if(symbol == Grid.WATER) return "___"
-        // Hit cell
-        if(symbol.contains(Grid.HIT_SUFFIX)) {
-            print("hittttt")
-            val letter = symbol.substring(0, symbol.indexOf(Grid.HIT_SUFFIX))
-            if(letter == Grid.WATER) return s"""$CYAN███$WHITE"""
-            else return s"""$RED█$letter█$WHITE"""
+        if(symbol == Grid.WATER) "___"
+        else {
+            // Hit cell
+            if(symbol.contains(Grid.HIT_SUFFIX)) {
+                val letter = symbol.substring(0, symbol.indexOf(Grid.HIT_SUFFIX))
+                if(letter == Grid.WATER) s"""$CYAN███$WHITE"""
+                else s"""$RED█$letter█$WHITE"""
+            } else {
+                "_" + symbol + "_"
+            }
         }
-        return "_" + symbol + "_"
     }
 }
 
