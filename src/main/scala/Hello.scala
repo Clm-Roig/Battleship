@@ -2,7 +2,7 @@ package battleship
 import Console.{WHITE, RED, CYAN, UNDERLINED}
 
 object Hello extends Greeting {
-    println(greeting)
+    //println(greeting)
 }
 
 trait Greeting {
