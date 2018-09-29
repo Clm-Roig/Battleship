@@ -4,7 +4,7 @@ import org.scalatest._
 import org.scalatest.FunSuite
 
 class HelloSpec extends FunSuite with Matchers {
-    test ("The Hello object should contain hello") {
+    test ("The Hello print should contains MY GRID.") {
         assert(Hello.greeting contains "MY GRID")
     }
 }
