@@ -173,30 +173,41 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 if(i != 0) res = res.concat("|\n        "+i+" ")
                 else res = res.concat("0 ")
                 x.foreach { x => {
-                    var char = "_" + x + "_"
-                    if(x == Grid.WATER) char = "___"
-
-                    // Cell hit
-                    if(x.contains(Grid.HIT_SUFFIX)) {
-                        val symbol = x.substring(0, x.indexOf(Grid.HIT_SUFFIX))
-                        if(symbol == Grid.WATER) char = s"""$CYAN███$WHITE"""
-                        else char = s"""$RED█$symbol█$WHITE"""
-                    } 
-                    res = res.concat("|").concat(char)
+                    res = res.concat("|").concat(this.getSelfCaseElement(x))
                 }}
             }
         }
         res = res.concat("|\n")
         this.output.display(res)
     }
+
+    /**
+        Return the case element formatted according to the symbol given. The 
+        case element is intended to be seen by the owner of the grid (first letter
+        of boat displated for example).        
+        @example 
+            "W" => "___"
+            "X_hit" => """$RED█X$WHITE"""
+    */
+    def getSelfCaseElement(symbol: String): String = {
+        if(symbol == Grid.WATER) return "___"
+        // Hit cell
+        if(symbol.contains(Grid.HIT_SUFFIX)) {
+            print("hittttt")
+            val letter = symbol.substring(0, symbol.indexOf(Grid.HIT_SUFFIX))
+            if(letter == Grid.WATER) return s"""$CYAN███$WHITE"""
+            else return s"""$RED█$letter█$WHITE"""
+        }
+        return "_" + symbol + "_"
+    }
 }
 
 object Grid {
-    def DEFAULT_SIZE = 10
-    def HIT_SUFFIX = "_hit"
-    def VALID_DIRECTIONS = List("S", "N", "W", "E")
-    def WATER = "W"
-    def WATER_HIT = "W_hit"
+    def DEFAULT_SIZE: Int = 10
+    def HIT_SUFFIX: String = "_hit"
+    def VALID_DIRECTIONS: List[String] = List("S", "N", "W", "E")
+    def WATER: String = "W"
+    def WATER_HIT: String = "W_hit"
 }
 
 // ===== Grid exceptions 
