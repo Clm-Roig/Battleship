@@ -8,7 +8,7 @@ package battleship
 case class Ship (name: String,size: Int, lifePoints: Int) {
     /**
     If no lifePoints provided, it's equal to the size.
-     */
+    */
     def this(name: String, size: Int) = {
         this(name, size, size)
     }
