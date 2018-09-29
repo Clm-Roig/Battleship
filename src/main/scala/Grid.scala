@@ -1,14 +1,15 @@
 package battleship
+import Console.{WHITE, RED, CYAN, UNDERLINED}
 
 /**
     The square grid used for the Battleship, where the players put their ships. 
     At initialization, the grid is filled with water ("W" char).
     | 
-   -|-------------- x ---------------->
+   -|-------------- y ---------------->
     |       0   1   2   3   4   5 ...
     |      _______________________
     |   0 |_W_|_W_|_W_|_W_|_W_|_W_|         N
-    y   1 |_W_|_W_|_W_|_W_|_W_|_W_|         Λ
+    x   1 |_W_|_W_|_W_|_W_|_W_|_W_|         Λ
     |   2 |_W_|_W_|_W_|_W_|_W_|_W_|    W <--|--> E
     |   3 |_W_|_W_|_W_|_W_|_W_|_W_|         V
     |   ...                                 S
@@ -36,14 +37,14 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
     @param s Ship to place on the Grid 
     @param direction direction of the ship
 
-    @throws InvalidCoordinateException if x or y are not between 0 and 9
+    @throws InvalidCoordinateException if x or y are not between 0 and Grid size
     @throws InvalidDirectionException if direction is not part of VALID_DIRECTIONS
     @return Option[Grid], Some if the Ship was correctly added, else None.
     */
     def addShip(x: Int, y: Int, s: Ship, direction: String): Grid = {
         // Tests data provided
-        if(x > 9|| x < 0) throw new InvalidCoordinateException("x must be between 0 and 9.")
-        if(y > 9|| y < 0) throw new InvalidCoordinateException("y must be between 0 and 9.")
+        if(x > this.size-1|| x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
+        if(y > this.size-1|| y < 0) throw new InvalidCoordinateException("y must be between 0 and " + (this.size - 1) + ".")
         if(!Grid.VALID_DIRECTIONS.contains(direction)) 
             throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
 
@@ -60,11 +61,46 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
         })) throw new ShipOutOfGridException("The Ship you are trying to add is out of the grid.")
 
         // Everything ok, place the Ship
-        /*
-        val newPositions = None
-        this.copy(positions = newPositions)
-        */
-        new Grid()
+        val newPositions = this.updatePositions(this.positions, cellsToCheck, s.symbol)
+        
+        this.copy(positions = newPositions)        
+    }
+
+    /**
+        Return a new positions Array with all the cells given change to symbol.
+        @param positions Array(Array[String]) current positions Array
+        @param cellsToChange Array[(Int,Int)] cells to modify
+        @param symbol String the symbol to use for modification
+
+        @return Array(Array[String]) the new positions Array updated.
+    */
+    def updatePositions(positions: Array[Array[String]], cellsToChange: Array[(Int,Int)], symbol: String)
+    : Array[Array[String]]  = {
+        if(cellsToChange.length == 0) positions
+        else {
+            val cellToChange = cellsToChange.last
+            var newPositions = Array.ofDim[String](this.size, this.size)
+            positions.zipWithIndex.foreach{
+                case(x,i) => {
+                    if(i == cellToChange._1) {
+                        x.zipWithIndex.foreach{
+                            case(y, j) => {
+                                if(j == cellToChange._2) {
+                                    newPositions(i)(j) = symbol
+                                }
+                                else {
+                                    newPositions(i)(j) = y
+                                }
+                            }
+                        }
+                    } else {
+                        newPositions(i) = x
+                    }
+                }
+            }
+            val newCellsToChange = cellsToChange.take(cellsToChange.length - 1)
+            updatePositions(newPositions, newCellsToChange, symbol)
+        }
     }
 
     /**
@@ -109,17 +145,41 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
         @return (Int, Int) the xCoord and yCoord of the next cell
     */
     def nextCell(x: Int, y: Int, direction: String): (Int,Int) = {
-        val xCoord = direction match {
-            case "W" => x - 1
-            case "E" => x + 1
-            case _ => x
-        }
         val yCoord = direction match {
-            case "N" => y - 1
-            case "S" => y + 1
+            case "W" => y - 1
+            case "E" => y + 1
             case _ => y
         }
+        val xCoord = direction match {
+            case "N" => x - 1
+            case "S" => x + 1
+            case _ => x
+        }
         (xCoord, yCoord)
+    }
+
+    /**
+        Display the grid to the player who owns it.
+    */
+    def printToSelf(): Unit = {
+        var res = s"""$WHITE
+        MY GRID:
+            A   B   C   D   E   F   G   H   I   J
+           _______________________________________
+        """
+        this.positions.zipWithIndex.foreach {
+            case(x,i) => {
+                if(i != 0)
+                    res = res.concat("|\n        "+i+" ")
+                else 
+                    res = res.concat("0 ")
+                x.foreach { x => {
+                    res = res.concat("|_").concat(x).concat("_")
+                }}
+            }
+        }
+
+        print(res)
     }
 }
 

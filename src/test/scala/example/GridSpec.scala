@@ -57,32 +57,38 @@ class GridSpec extends fixture.FunSuite {
     // ===== getCellsToCheck() tests
     test("getCellsToCheck(): common usage.") { f => 
         val cells = f.grid.getCellsToCheck(0,0,"S",2)
-        assert(cells.sameElements(Array((0,0),(0,1),(0,2))))
+        assert(cells.sameElements(Array((0,0),(1,0),(2,0))))
         
         val cells2 = f.grid.getCellsToCheck(1,1,"E",3)        
-        assert(cells2.sameElements(Array((1,1),(2,1),(3,1),(4,1))))    
+        assert(cells2.sameElements(Array((1,1),(1,2),(1,3),(1,4))))    
     }
 
     // ===== isShipHere() tests
     test("isShipHere(): common usage.") { f => 
         val newGrid = f.grid.addShip(1,1,f.ship,"S")
-        assert(newGrid.isShipHere(1,2))
+        assert(newGrid.isShipHere(4,1))
     }
     
     // ===== nextCell() tests
     test("nextCell(): common usage.") { f => 
         val nextCell = f.grid.nextCell(5,5,"N")
-        assert(nextCell._1 == 5)
-        assert(nextCell._2 == 4)
+        assert(nextCell._1 == 4)
+        assert(nextCell._2 == 5)
 
         val nextCell2 = f.grid.nextCell(1,3,"E")
-        assert(nextCell2._1 == 2)
-        assert(nextCell2._2 == 3)
+        assert(nextCell2._1 == 1)
+        assert(nextCell2._2 == 4)
     }
 
     test("nextCell(): out of grid result.") { f => 
         val nextCell = f.grid.nextCell(0,0,"W")
-        assert(nextCell._1 == -1)
-        assert(nextCell._2 == 0)
+        assert(nextCell._1 == 0)
+        assert(nextCell._2 == -1)
     }  
+
+    // ===== printToSelf() tests 
+    test("printToSelf()") { f => 
+        val newGrid = f.grid.addShip(1,1,f.ship,"S")
+        newGrid.printToSelf()
+    }
 }
