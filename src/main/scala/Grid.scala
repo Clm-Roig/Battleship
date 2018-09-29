@@ -169,22 +169,30 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]])
         """
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
-                if(i != 0)
-                    res = res.concat("|\n        "+i+" ")
-                else 
-                    res = res.concat("0 ")
+                if(i != 0) res = res.concat("|\n        "+i+" ")
+                else res = res.concat("0 ")
                 x.foreach { x => {
-                    res = res.concat("|_").concat(x).concat("_")
+                    var char = "_" + x + "_"
+                    if(x == Grid.WATER) char = "___"
+
+                    // Cell hit
+                    if(x.contains(Grid.HIT_SUFFIX)) {
+                        val symbol = x.substring(0, x.indexOf(Grid.HIT_SUFFIX))
+                        if(symbol == Grid.WATER) char = s"""$CYAN███$WHITE"""
+                        else char = s"""$RED█$symbol█$WHITE"""
+                    } 
+                    res = res.concat("|").concat(char)
                 }}
             }
         }
-
+        res = res.concat("|\n")
         print(res)
     }
 }
 
 object Grid {
     def DEFAULT_SIZE = 10
+    def HIT_SUFFIX = "_hit"
     def VALID_DIRECTIONS = List("S", "N", "W", "E")
     def WATER = "W"
     def WATER_HIT = "W_hit"
