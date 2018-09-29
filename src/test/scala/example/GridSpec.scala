@@ -7,7 +7,7 @@ class GridSpec extends fixture.FunSuite {
     case class FixtureParam(ship: Ship, grid: Grid)
 
     def withFixture(test: OneArgTest): org.scalatest.Outcome = {
-        val ship = new Ship("testedShip", 4)
+        val ship = new Ship("testedShip","T",4)
         val grid = new Grid()
         try test(FixtureParam(ship, grid))
         finally {

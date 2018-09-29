@@ -2,15 +2,16 @@ package battleship
 /**
     A ship used on the grid to play Battleship
     @param name name of the ship
+    @param symbol symbol which represents the ship (usually, the first letter of the name)
     @param size size of the ship (in number of cells on the grid)
     @param lifePoints ship life points remaining. At the beginning: lifePoints = size
  */
-case class Ship (name: String,size: Int, lifePoints: Int) {
+case class Ship (name: String, symbol: String, size: Int, lifePoints: Int) {
     /**
     If no lifePoints provided, it's equal to the size.
     */
-    def this(name: String, size: Int) = {
-        this(name, size, size)
+    def this(name: String, symbol: String, size: Int) = {
+        this(name, symbol, size, size)
     }
 
     /**
