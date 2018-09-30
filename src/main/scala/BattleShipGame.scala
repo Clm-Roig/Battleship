@@ -49,7 +49,7 @@ object BattleSchipGame extends App {
 
         // TODO : Place the ships and create Player    
         val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
-
+    
         
         // Launch the battle
         output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")

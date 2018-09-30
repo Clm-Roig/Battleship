@@ -1,5 +1,5 @@
 package battleship
-import Console.{WHITE, RED, CYAN, UNDERLINED}
+import Console.{WHITE_B, BLACK, WHITE, RED, RESET, CYAN, UNDERLINED}
 
 /**
     The square grid used for the Battleship, where the players put their ships. 
@@ -48,7 +48,8 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
 
         // Tests data provided
         if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
-        if(x > this.size-1|| x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
+        if(y > this.size-1 || y < 0) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
+        if(x > this.size-1 || x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
         if(!Grid.VALID_DIRECTIONS.contains(direction)) 
             throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
 
@@ -176,13 +177,13 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     def toStringToSelf(): String = {
         var res = s"""$WHITE
         MY GRID:
-            A   B   C   D   E   F   G   H   I   J
-           _______________________________________
+          $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
+        $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
         """
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
-                if(i != 0) res = res.concat("|\n        "+i+" ")
-                else res = res.concat("0 ")
+                if(i != 0) res = res.concat("|\n        "+i+"   ")
+                else res = res.concat("0   ")
                 x.foreach { x => {
                     res = res.concat("|").concat(this.getSelfCaseElement(x))
                 }}
