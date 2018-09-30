@@ -10,3 +10,6 @@ lazy val root = (project in file(".")).
     name := "Battleship",
     libraryDependencies += scalaTest % Test
   )
+
+// Allow to cancel "run" command with Ctrl + C
+cancelable in Global := true
