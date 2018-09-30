@@ -17,19 +17,24 @@ class GridSpec extends fixture.FunSuite {
 
     // ====== addShip() tests
     // x and y
-    test("addShip(): if x or y are not between 0 and 9, should throw a InvalidCoordinateException.") { f =>
-        val (x,y,dir) = (-3, 5, "N")
+    test("addShip(): if x is not between 0 and 9 or y between A and J, should throw a InvalidCoordinateException.") { f =>
+        val (x,y,dir) = (-3, 'D', "N")
         assertThrows[InvalidCoordinateException] {
             f.grid.addShip(x, y, f.ship, dir)
         }
-        val (x2,y2) = (3, 50)
+        val (x2,y2) = (3, '5')
         assertThrows[InvalidCoordinateException] {
             f.grid.addShip(x2, y2, f.ship, dir)
         }
+
+        val (x3,y3) = (3, 'K')
+        assertThrows[InvalidCoordinateException] {
+            f.grid.addShip(x3, y3, f.ship, dir)
+        }
     } 
 
-    test("addShip(): x and y must be between 0 and 9.") { f =>
-        val (x,y,dir) = (4, 6, "N")
+    test("addShip(): common usage.") { f =>
+        val (x,y,dir) = (4, 'E', "N")
         val newGrid = f.grid.addShip(x, y, f.ship, dir)
         assert(newGrid match {
             case g: Grid => true
@@ -39,14 +44,14 @@ class GridSpec extends fixture.FunSuite {
 
     // direction
     test("addShip(): direction must be S, N, W or E. If not, should throw a InvalidDirectionException.") { f =>
-        val (x,y,dir) = (3, 5, "X")
+        val (x,y,dir) = (3, 'D', "X")
         assertThrows[InvalidDirectionException] {
             f.grid.addShip(x, y, f.ship, dir)
         }
     }
 
     test("addShip(): direction must be S, N, W or E.") { f =>
-        val (x,y,dir) = (3, 5, "S")
+        val (x,y,dir) = (3, 'D', "S")
         val newGrid = f.grid.addShip(x, y, f.ship, dir)
         assert(newGrid match {
             case g: Grid => true
@@ -65,7 +70,7 @@ class GridSpec extends fixture.FunSuite {
 
     // ===== isShipHere() tests
     test("isShipHere(): common usage.") { f => 
-        val newGrid = f.grid.addShip(1,1,f.ship,"S")
+        val newGrid = f.grid.addShip(1,'B',f.ship,"S")
         assert(newGrid.isShipHere(4,1))
     }
     
@@ -88,8 +93,8 @@ class GridSpec extends fixture.FunSuite {
 
     // ===== toStringToSelf() tests
     test("toStringToSelf()") { f => 
-        val newGrid = f.grid.addShip(1,1,f.ship,"S")
-        val newGrid2 = newGrid.addShip(5,4, new Ship("Destroyer", "D_hit", 3), "E")
+        val newGrid = f.grid.addShip(1,'B',f.ship,"S")
+        val newGrid2 = newGrid.addShip(5,'E',new Ship("Destroyer", "D_hit", 3), "E")
         assert(newGrid2.toStringToSelf().contains("MY GRID"))
     }
 }

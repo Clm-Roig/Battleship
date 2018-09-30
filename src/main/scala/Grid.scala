@@ -42,8 +42,12 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     @throws InvalidDirectionException if direction is not part of VALID_DIRECTIONS
     @return Option[Grid], Some if the Ship was correctly added, else None.
     */
-    def addShip(x: Int, y: Int, s: Ship, direction: String): Grid = {
+    def addShip(x: Int, yChar: Char, s: Ship, direction: String): Grid = {
+        // Convert y to Int (index in alphabet)
+        val y = yChar.toUpper.toInt - 'A'.toInt
+
         // Tests data provided
+        if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size.toChar - 'A'))
         if(x > this.size-1|| x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
         if(y > this.size-1|| y < 0) throw new InvalidCoordinateException("y must be between 0 and " + (this.size - 1) + ".")
         if(!Grid.VALID_DIRECTIONS.contains(direction)) 
