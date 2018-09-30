@@ -21,7 +21,7 @@ import Console.{WHITE, RED, CYAN, UNDERLINED}
         the cells of the grid, each cell can be water or ship (hit or not for both)
     @param output output class used to display messages
  */
-case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]], output: Output = ConsoleOutput()) {
+case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]], output: Output = ConsoleOutput) {
 
     // ===== Constructors
     def this(size: Int) = {

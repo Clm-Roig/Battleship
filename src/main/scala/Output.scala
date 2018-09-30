@@ -7,7 +7,7 @@ trait Output {
     def display(msg: String): Unit
 }
 
-case class ConsoleOutput() extends Output {
+object ConsoleOutput extends Output {
     override def display(msg: String): Unit = {
         println(msg)
     }

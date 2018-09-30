@@ -21,7 +21,7 @@ object BattleSchipGame extends App {
         new Ship("Destroyer","D",2),
     )
 
-    val output: Output = ConsoleOutput()
+    val output = ConsoleOutput
 
     start()
 
@@ -72,12 +72,12 @@ object BattleSchipGame extends App {
     def askForGameType(): Int = {
         output.display("Choose your game type (integer only):")
         GAME_TYPES.zipWithIndex.foreach{ 
-            case(x, i) => println(i + ". " + x)
+            case(x, i) => output.display(i + ". " + x)
         }
         val valueTyped = scala.io.StdIn.readLine()
         try {
             val intTyped = Integer.parseInt(valueTyped)
-            if(intTyped < 0 || intTyped >= GAME_TYPES.length) askForGameType()
+            if(intTyped < 0 || intTyped >= this.GAME_TYPES.length) askForGameType()
             else intTyped
         } catch {
             case e: NumberFormatException => askForGameType()
