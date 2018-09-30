@@ -47,23 +47,33 @@ object BattleSchipGame extends App {
 
         val beginner = (new Random).nextInt(2)
 
-        // TODO : Place the ships    
-        output.display(p1.name + " place your ships!")
-        println(SHIPS(0))
-
-        output.display(p2.name + " place your ships!")
+        // TODO : Place the ships and create Player    
+        val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
 
         
         // Launch the battle
         output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")
         if (beginner == 0) output.display(p1.name + " starts.") else output.display(p2.name + " starts.")
-        val state = GameState(new Human(p1.name), new Human(p2.name), beginner)
+        val state = GameState(new Human(name = p1.name), new Human(name = p2.name), beginner)
         gameLoop(state)
     }
 
     // Game loop ((turn after turn))
     def gameLoop(state: GameState) {
         
+    }
+
+    /**
+        Return a new Player with the list of ships placed on his grid.
+    */
+    def getNewPlayerWithShipsPlaced(ships: Array[Ship], p: Player): Player = {  
+        if(ships.length == 0) p
+        else {
+            val ship = ships.last
+            output.display(p.name + " place your ship: " + ship.toString)
+            val newPlayer = p.askToPlaceAShip(ship)
+            getNewPlayerWithShipsPlaced(ships.take(ships.length - 1), newPlayer)
+        }        
     }
 
     /**

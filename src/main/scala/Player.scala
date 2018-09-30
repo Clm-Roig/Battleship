@@ -1,9 +1,9 @@
 package battleship
 
 trait Player {
-    val myGrid = new Grid()
+    val myGrid: Grid
     val name: String
-    val score  = 0
+    val score: Int
 
     /**
         Ask the player to enter coordinate for a shoot.
@@ -13,7 +13,9 @@ trait Player {
 
     /**
         Ask the player to place a Ship. 
-        @return (Int,Int,String) x coordinate, y coordinate, direction
+        @param ship Ship to place
+
+        @return Player, a new Player with the Ship placed
     */
-    def askToPlaceAShip(ship: Ship): (Int,Int,String)
+    def askToPlaceAShip(ship: Ship): Player
 }
