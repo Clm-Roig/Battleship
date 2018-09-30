@@ -59,6 +59,23 @@ class GridSpec extends fixture.FunSuite {
         })
     }
 
+    // Overlaps
+    test("addShip(): should throw an Exception if attempt to place a ship over another one.") { f =>
+        val (x,y,dir) = (9, 'A', "N")
+        val newGrid = f.grid.addShip(x,y,f.ship,dir)
+        assertThrows[ShipOverlapsException] {
+            newGrid.addShip(x, y, f.ship, dir)
+        }
+    }
+
+    // Out of grid
+    test("addShip(): should throw an Exception if attempt to place a ship out of the Grid.") { f =>
+        val (x,y,dir) = (9, 'A', "S")
+        assertThrows[ShipOutOfGridException] {
+            f.grid.addShip(x, y, f.ship, dir)
+        }
+    }
+
     // ===== getCellsToCheck() tests
     test("getCellsToCheck(): common usage.") { f => 
         val cells = f.grid.getCellsToCheck(0,0,"S",2)

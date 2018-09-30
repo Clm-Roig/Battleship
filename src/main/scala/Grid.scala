@@ -47,9 +47,8 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         val y = yChar.toUpper.toInt - 'A'.toInt
 
         // Tests data provided
-        if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size.toChar - 'A'))
+        if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
         if(x > this.size-1|| x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
-        if(y > this.size-1|| y < 0) throw new InvalidCoordinateException("y must be between 0 and " + (this.size - 1) + ".")
         if(!Grid.VALID_DIRECTIONS.contains(direction)) 
             throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
 
@@ -57,13 +56,16 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         val cellsToCheck = (x,y) +: this.getCellsToCheck(x,y,direction,s.size)
 
         // Test if it overlaps a Ship
-        if (cellsToCheck.forall(tuple => this.isShipHere(tuple._1, tuple._2)))
-            throw new ShipOverlapsException("The Ship you are trying to add is overlapping another one.")
+        cellsToCheck.foreach(tuple => {
+            if (this.isShipHere(tuple._1, tuple._2))
+                throw new ShipOverlapsException("The Ship you are trying to add is overlapping another one.")
+        })
 
         // Test if it is out of grid
-        if (cellsToCheck.forall(tuple => {
-            tuple._1 < 0||tuple._2 < 0||tuple._1 >= this.size||tuple._2 >= this.size
-        })) throw new ShipOutOfGridException("The Ship you are trying to add is out of the grid.")
+        cellsToCheck.foreach(tuple => {
+            if(tuple._1 < 0||tuple._2 < 0||tuple._1 >= this.size||tuple._2 >= this.size) 
+                throw new ShipOutOfGridException("The Ship you are trying to add is out of the grid.")
+        })
 
         // Everything ok, place the Ship
         val newPositions = this.updatePositions(this.positions, cellsToCheck, s.symbol)
@@ -137,7 +139,12 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         @return Boolean, true if there is a Ship or a Ship hit at the coordinate(x,y), else false
     */
     def isShipHere(x: Int, y: Int): Boolean = {
-        this.positions(x)(y) != Grid.WATER && this.positions(x)(y) != Grid.WATER_HIT
+        try {
+            this.positions(x)(y) != Grid.WATER && this.positions(x)(y) != Grid.WATER_HIT
+        } catch {
+            // Out of grid, there is no ship.
+            case e: ArrayIndexOutOfBoundsException => false
+        }
     }
 
     /**

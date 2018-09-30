@@ -16,10 +16,8 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         val x = this.askToEnterXCoordinate()
 
         // y coordinate
-        output.display("Enter the y coordinate of the ship.")
+        output.display("Enter the y coordinate of the ship (between A and " + (this.myGrid.size + 'A' - 1).toChar + ").")
         val y = this.askToEnterYCoordinate()
-
-        //TODO : convert y to int
 
         // Direction
         output.display("Enter the direction (N, S, E or W) of the ship.")
@@ -29,7 +27,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
             new Human(this.name, newGrid)
         } catch {
             case e: Exception => {
-                output.display(e.toString)
+                output.displayError(e.getMessage)
                 askToPlaceAShip(ship)
             }
         }
@@ -43,12 +41,12 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         try {
             val x = xTyped.toInt
             if(x < 0 ||x >= this.myGrid.size) {
-                output.display("x must be between 0 and " + (this.myGrid.size - 1) + ".")
+                output.displayError("x must be between 0 and " + (this.myGrid.size - 1) + ".")
                 askToEnterXCoordinate()
             }
             x
         } catch {
-            case e: NumberFormatException => output.display("x must be an integer between 0 and " + (this.myGrid.size - 1) + ".")            
+            case e: NumberFormatException => output.displayError("x must be an integer between 0 and " + (this.myGrid.size - 1) + ".")            
             askToEnterXCoordinate()
         }
     }
@@ -61,13 +59,17 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         try {
             val y = yTyped(0)
             if(!y.isLetter) {
-                output.display("y must be a letter.")
+                output.displayError("y must be a letter.")
                 askToEnterYCoordinate()
             }
+            if((y - (this.myGrid.size + 'A')).toInt >= 0) {
+                output.displayError("y must be between A and "+ (this.myGrid.size + 'A' - 1).toChar +".")
+                askToEnterYCoordinate()
+            }            
             y
         } catch {
             case _ : Throwable => {
-                output.display("Unexpected exception.")
+                output.displayError("Unexpected exception.")
                 askToEnterYCoordinate()
             }
         }
