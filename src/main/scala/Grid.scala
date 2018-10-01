@@ -46,9 +46,6 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
 
         // Convert y to Int (index in alphabet)
         val y = yChar.toUpper.toInt - 'A'.toInt
-        
-        println("DATA provided: ")
-        println(x + "," + yChar)
 
         // Tests data provided
         if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")

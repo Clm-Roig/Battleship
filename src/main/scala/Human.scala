@@ -44,7 +44,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
                 output.displayError("x must be between 0 and " + (this.myGrid.size - 1) + ".")
                 askToEnterXCoordinate()
             }
-            else {
+            else {
                 x
             }
         } catch {
@@ -69,7 +69,6 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
                 askToEnterYCoordinate()
             }            
             else {
-                println("je retourne y")
                 y
             }
         } catch {
