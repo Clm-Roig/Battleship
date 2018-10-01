@@ -125,7 +125,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     */
     def getCellsToCheck(x: Int, y: Int, direction: String, nbOfCells: Int, 
     previousCells: Array[(Int, Int)] = Array()): Array[(Int, Int)] = {
-        if(nbOfCells <= 0) previousCells :+ (x,y)
+        if(nbOfCells <= 1) previousCells :+ (x,y)
         else {
             val nextCell = this.nextCell(x,y,direction)
             val cells = previousCells :+ (x,y)
