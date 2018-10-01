@@ -1,10 +1,11 @@
 package battleship
 
-case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output: Output = ConsoleOutput) extends Player {
+case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, 
+output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
 
     def askForShootCoordinates(): (Int,Int) = {
         // TODO
-        val valueTyped = scala.io.StdIn.readLine()
+        val valueTyped = input.askString()
         
         (1,1)
     }
@@ -37,7 +38,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         Return the x coordinate asked to the Human via Console prompt.
     */
     def askToEnterXCoordinate(): Int = {
-        val xTyped = scala.io.StdIn.readLine()
+        val xTyped = input.askString()
         try {
             val x = xTyped.toInt
             if(x < 0 ||x >= this.myGrid.size) {
@@ -57,7 +58,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         Return the y coordinate asked to the Human via Console prompt.
     */
     def askToEnterYCoordinate(): Char = {
-        val yTyped = scala.io.StdIn.readLine()
+        val yTyped = input.askString()
         try {
             val y = yTyped.toUpperCase()(0)
             if(!y.isLetter) {
@@ -67,7 +68,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
             else if((y - (this.myGrid.size + 'A')).toInt >= 0) {
                 output.displayError("y must be between A and "+ (this.myGrid.size + 'A' - 1).toChar +".")
                 askToEnterYCoordinate()
-            }            
+            }
             else {
                 y
             }
@@ -83,7 +84,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
         Return the direction asked to the Human via Console prompt.
     */
     def askToEnterDirection(): String = {
-        val dirTyped = scala.io.StdIn.readLine()
+        val dirTyped = input.askString()
         try {
             val dir = dirTyped.toUpperCase()(0).toString
             if(!Grid.VALID_DIRECTIONS.contains(dir)) {
