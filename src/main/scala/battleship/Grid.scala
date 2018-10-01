@@ -118,7 +118,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         @param x x coordinate of the initial cell
         @param y y coordinate of the initial cell
         @param direction direction of the next cell, must be in VALID_DIRECTIONS
-        @param nbOfCells number of cells to pass through
+        @param nbOfCells number of cells to pass through (including the first one)
         @param previousCells cells passed through previously
 
         @return Array[(Int,Int)] the cells coordinates (x,y) passed through.
