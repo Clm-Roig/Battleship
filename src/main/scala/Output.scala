@@ -7,6 +7,7 @@ trait Output {
     */
     def display(msg: String): Unit
     def displayError(msg: String): Unit
+    def clear(): Unit
 }
 
 // Console Output object (standard output)
@@ -17,5 +18,9 @@ object ConsoleOutput extends Output {
 
     override def displayError(msg: String): Unit = {
         println(s"$RED"+msg+s"$WHITE")
+    }
+
+    override def clear(): Unit = {
+        print("\033[H\033[2J");
     }
 }

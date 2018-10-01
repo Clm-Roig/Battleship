@@ -88,7 +88,7 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
         try {
             val dir = dirTyped.toUpperCase()(0).toString
             if(!Grid.VALID_DIRECTIONS.contains(dir)) {
-                output.display("Direction must be "+ (Grid.VALID_DIRECTIONS mkString ", ") + ".")
+                output.displayError("Direction must be "+ (Grid.VALID_DIRECTIONS mkString ", ") + ".")
                 askToEnterDirection()
             }
             else {

@@ -31,13 +31,14 @@ object BattleSchipGame extends App {
     def start(): Unit = {
 
         // Init
+        output.clear()
         output.display("====================")
         output.display("==== BATTLESHIP ====")
         output.display("====================")
         val gameType = askForGameType()
 
         // TODO : case depending on gameType
-
+        output.clear()
         output.display("Player 1 name:")
         val p1Name = scala.io.StdIn.readLine()
         val p1 = new Human(p1Name)
@@ -47,8 +48,20 @@ object BattleSchipGame extends App {
 
         val beginner = (new Random).nextInt(2)
 
+        // Place ships
         val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
-        val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)    
+        output.clear()
+        output.display(player1.myGrid.toStringToSelf())
+        output.display("Press any key to let " + p2Name + " place his ships.")
+        scala.io.StdIn.readLine()
+        output.clear()
+
+        val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
+        output.clear()
+        output.display(player2.myGrid.toStringToSelf())
+        output.display("Press any key to start the battle.")
+        scala.io.StdIn.readLine()
+        output.clear() 
         
         // Launch the battle
         output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")
@@ -69,7 +82,8 @@ object BattleSchipGame extends App {
         if(ships.length == 0) p
         else {
             val ship = ships.last
-            output.display(p.name + " place your ship: " + ship.toString)
+            output.clear()
+            output.display(p.name + " place the ship: " + ship.toString)
             val newPlayer = p.askToPlaceAShip(ship)
             getNewPlayerWithShipsPlaced(ships.take(ships.length - 1), newPlayer)
         }        
