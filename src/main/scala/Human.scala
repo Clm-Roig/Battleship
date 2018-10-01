@@ -44,7 +44,9 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
                 output.displayError("x must be between 0 and " + (this.myGrid.size - 1) + ".")
                 askToEnterXCoordinate()
             }
-            x
+            else {
+                x
+            }
         } catch {
             case e: NumberFormatException => output.displayError("x must be an integer between 0 and " + (this.myGrid.size - 1) + ".")            
             askToEnterXCoordinate()
@@ -57,16 +59,19 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
     def askToEnterYCoordinate(): Char = {
         val yTyped = scala.io.StdIn.readLine()
         try {
-            val y = yTyped(0)
+            val y = yTyped.toUpperCase()(0)
             if(!y.isLetter) {
                 output.displayError("y must be a letter.")
                 askToEnterYCoordinate()
             }
-            if((y - (this.myGrid.size + 'A')).toInt >= 0) {
+            else if((y - (this.myGrid.size + 'A')).toInt >= 0) {
                 output.displayError("y must be between A and "+ (this.myGrid.size + 'A' - 1).toChar +".")
                 askToEnterYCoordinate()
             }            
-            y
+            else {
+                println("je retourne y")
+                y
+            }
         } catch {
             case _ : Throwable => {
                 output.displayError("Unexpected exception.")
@@ -86,7 +91,9 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, output
                 output.display("Direction must be "+ (Grid.VALID_DIRECTIONS mkString ", ") + ".")
                 askToEnterDirection()
             }
-            dir
+            else {
+                dir
+            }
         } catch {
             case _ : Throwable => {
                 output.display("Unexpected exception.")

@@ -47,9 +47,8 @@ object BattleSchipGame extends App {
 
         val beginner = (new Random).nextInt(2)
 
-        // TODO : Place the ships and create Player    
         val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
-    
+        val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)    
         
         // Launch the battle
         output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")
@@ -58,7 +57,7 @@ object BattleSchipGame extends App {
         gameLoop(state)
     }
 
-    // Game loop ((turn after turn))
+    // Game loop (turn after turn)
     def gameLoop(state: GameState) {
         
     }

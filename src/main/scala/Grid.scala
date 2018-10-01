@@ -43,12 +43,16 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     @return Option[Grid], Some if the Ship was correctly added, else None.
     */
     def addShip(x: Int, yChar: Char, s: Ship, direction: String): Grid = {
+
         // Convert y to Int (index in alphabet)
         val y = yChar.toUpper.toInt - 'A'.toInt
+        
+        println("DATA provided: ")
+        println(x + "," + yChar)
 
         // Tests data provided
         if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
-        if(y > this.size-1 || y < 0) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
+        if(y > this.size-1 || y < 0) throw new InvalidCoordinateException("y must be between A and " + (this.size + 'A' - 1).toChar + ".")
         if(x > this.size-1 || x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
         if(!Grid.VALID_DIRECTIONS.contains(direction)) 
             throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
