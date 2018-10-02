@@ -162,22 +162,18 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 // Ship already hit
                 val symbol = cellText.substring(0, cellText.indexOf(Grid.HIT_SUFFIX))
                 val ship = this.ships.filter(_.symbol == symbol)(0)
-                val state = "hit"
+                val state = Grid.HIT
                 val grid = this.copy()
                 (Some(ship), state, grid)
             } else {
                 // Ship hit
                 // Update positions and ships
-
-                println("I shoot here: x="+x+"  y="+y)
-                println(toStringToSelf())
-
                 val newPositions = this.updatePositions(this.positions, Array((x,y)), cellText.concat(Grid.HIT_SUFFIX))
                 val ship = this.ships.filter(_.symbol == cellText)(0).hit()
                 val newShips = this.ships.filter(_.symbol != cellText) :+ ship
 
                 // Sunk ?
-                val state = if(ship.lifePoints == 0) "sunk" else "hit"
+                val state = if(ship.lifePoints == 0) Grid.SUNK else Grid.HIT
 
                 // Return objects
                 val grid = this.copy(positions = newPositions, ships = newShips)
@@ -185,7 +181,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
             }
             
         } else {
-            val state = "miss"
+            val state = Grid.MISS
             val newPositions = this.updatePositions(this.positions, Array((x,y)), Grid.WATER_HIT)
             val grid = this.copy(positions = newPositions)
             (None, state, grid)
@@ -323,6 +319,11 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
 object Grid {
     def DEFAULT_SIZE: Int = 10
     def HIT_SUFFIX: String = "_hit"
+    
+    def HIT: String = "hit"
+    def MISS: String = "miss"
+    def SUNK: String = "sunk"
+
     def VALID_DIRECTIONS: List[String] = List("S", "N", "W", "E")
     def WATER: String = "W"
     def WATER_HIT: String = "W_hit"
