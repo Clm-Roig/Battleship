@@ -61,9 +61,9 @@ object BattleSchipGame extends App {
         output.display(player2.myGrid.toStringToSelf())
         output.display("Press any key to start the battle.")
         scala.io.StdIn.readLine()
+        output.clear()
         
         // Launch the battle
-        output.display("\nThe battle between " + player1.name + " & " + player2.name + " begins!")
         val state = if (beginner == 0) {
             output.display(player1.name + " starts.") 
             new GameState(new Human(name = player1.name, myGrid = player1.myGrid), new Human(name = player2.name, myGrid = player2.myGrid), beginner)
@@ -79,18 +79,7 @@ object BattleSchipGame extends App {
         val nextPlayer = if(state.currentPlayer == state.player1) state.player2 else state.player1
         val currentPlayer = state.currentPlayer
 
-        // Check if game is over
-        if(state.currentPlayer.myGrid.areAllShipsSunk()) {
-            output.display(nextPlayer.name + " wins ! Congratulations!")
-            state
-        }
-        else if(nextPlayer.myGrid.areAllShipsSunk()) {
-            output.display(currentPlayer.name + " wins ! Congratulations!")
-            state
-        }
-
         // Shoot
-        output.clear()
         output.display(currentPlayer.name + ", it's your turn!")
 
         val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
@@ -108,6 +97,19 @@ object BattleSchipGame extends App {
         // Update data by creating new objects 
         val nextPlayerWithGridUpdated = if(nextPlayer.isInstanceOf[Human]) nextPlayer.asInstanceOf[Human].copy(myGrid = newGrid) 
             else nextPlayer.asInstanceOf[IA].copy(myGrid = newGrid)
+        
+        output.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
+
+        // Check if game is over
+        if(nextPlayerWithGridUpdated.myGrid.areAllShipsSunk()) {
+            output.display("All " + nextPlayer.name + "'s ships sunk, " + currentPlayer.name + " wins ! Congratulations!")
+            return state
+        }
+
+        // Prepare for next turn
+        output.display("Press any key to let " + nextPlayer.name + " plays.")
+        scala.io.StdIn.readLine()
+        output.clear()    
         if(currentPlayer == state.player1) 
             gameLoop(state.copy(player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
         else 
