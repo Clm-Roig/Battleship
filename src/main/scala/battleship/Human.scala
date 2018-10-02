@@ -86,8 +86,12 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
                 y
             }
         } catch {
-            case _ : Throwable => {
-                output.displayError("Unexpected exception.")
+            case e : StringIndexOutOfBoundsException => {
+                output.displayError("Enter a letter please.")
+                askToEnterYCoordinate()
+            }
+            case e : Throwable => {
+                output.displayError("An unexpected exception occured, please try again.")
                 askToEnterYCoordinate()
             }
         }
