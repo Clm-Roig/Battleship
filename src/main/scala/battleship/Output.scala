@@ -24,3 +24,17 @@ object ConsoleOutput extends Output {
         print("\033[H\033[2J");
     }
 }
+
+object MockConsoleOutput extends Output {
+     override def display(msg: String): Unit = {
+        // Do nothing
+    }
+
+    override def displayError(msg: String): Unit = {
+        // Do nothing
+    }
+
+    override def clear(): Unit = {
+        // Do nothing
+    }
+}
