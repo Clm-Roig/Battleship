@@ -1,5 +1,6 @@
 package battleship
 import scala.util.Random
+import scala.annotation.tailrec
 
 object BattleSchipGame extends App {
     // ===== CONST
@@ -116,6 +117,7 @@ object BattleSchipGame extends App {
     }
 
     // Game loop (play another game ?)
+    @tailrec
     def gameLoop(state: GameState): GameState = {
         if(state.nbOfGames != 0) {
             if(this.askForAnotherGame()) {
@@ -159,6 +161,7 @@ object BattleSchipGame extends App {
     }
 
     // Battle loop (turn after turn)
+    @tailrec
     def battleLoop(state: GameState): GameState = {
         val nextPlayer = if(state.currentPlayer == state.player1) state.player2 else state.player1
         val currentPlayer = state.currentPlayer
@@ -218,6 +221,7 @@ object BattleSchipGame extends App {
     /**
         Return a new Player with the list of ships placed on his grid.
     */
+    @tailrec
     def getNewPlayerWithShipsPlaced(ships: Array[Ship], p: Player): Player = {  
         if(ships.length == 0) p
         else {
@@ -228,7 +232,7 @@ object BattleSchipGame extends App {
             getNewPlayerWithShipsPlaced(ships.take(ships.length - 1), newPlayer)
         }        
     }
-
+    
     def askForAnotherGame(): Boolean = {
         output.display("Do you want to play another game ? (y/n)")
         val valueTyped = scala.io.StdIn.readLine()

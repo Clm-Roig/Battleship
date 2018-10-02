@@ -1,5 +1,6 @@
 package battleship
 import Console.{WHITE_B, BLACK, WHITE, RED, RESET, CYAN, UNDERLINED}
+import scala.annotation.tailrec
 
 /**
     The square grid used for the Battleship, where the players put their ships. 
