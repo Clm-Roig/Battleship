@@ -3,7 +3,7 @@ import org.scalatest.FunSuite
 
 class HumanSpec extends FunSuite {
 
-    // ====== askToPlaceAShip() tests
+    // ===== askToPlaceAShip() tests
     test("askToPlaceAShip(): common usage.") {
         val inputString = new MockConsoleInput(List("5", "a", "E"))
         val human = Human("Kévin", input = inputString) 
@@ -16,7 +16,24 @@ class HumanSpec extends FunSuite {
         assert(newHuman.myGrid.positions(5)(1) == "D")
     }
 
-    // ====== askToEnterXCoordinate() tests
+    // ===== askForShootCoordinates() tests
+    test("askForShootCoordinates(): common usage.") {
+        val inputString = new MockConsoleInput(List("5", "A"))
+        val human = Human("Kévin", input = inputString) 
+        val tuple = human.askForShootCoordinates(new Grid())
+        assert(tuple._1 == 5)
+        assert(tuple._2 == 0)
+    }
+
+    test("askForShootCoordinates(): incorrect x and y.") {
+        val inputString = new MockConsoleInput(List("23","4","z","C"))
+        val human = Human("Kévin", input = inputString) 
+        val tuple = human.askForShootCoordinates(new Grid())
+        assert(tuple._1 == 4)
+        assert(tuple._2 == 2)
+    }
+
+    // ===== askToEnterXCoordinate() tests
     test("askToEnterXCoordinate(): common usage.") {
         val inputString = new MockConsoleInput(List("5"))
         val human = Human("Kévin", input = inputString)   
@@ -39,7 +56,7 @@ class HumanSpec extends FunSuite {
         assert(human.askToEnterXCoordinate() == 3)
     }
 
-    // ====== askToEnterYCoordinate() tests
+    // ===== askToEnterYCoordinate() tests
     test("askToEnterYCoordinate(): common usage (type 'a' or 'A' must return 'A').") {
         val inputString = new MockConsoleInput(List("A", "a"))
         val human = Human("Kévin", input = inputString)   
@@ -55,7 +72,7 @@ class HumanSpec extends FunSuite {
         assert(human.askToEnterYCoordinate() == 'C')
     }
 
-    // ====== askToEnterDirection() tests
+    // ===== askToEnterDirection() tests
     test("askToEnterDirection(): common usage.") {
         val inputString = new MockConsoleInput(List("E"))
         val human = Human("Kévin", input = inputString)   
