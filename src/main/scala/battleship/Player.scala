@@ -4,6 +4,13 @@ trait Player {
     val myGrid: Grid
     val name: String
     val score: Int
+    val output: Option[Output]
+    val input: Option[Input]
+
+    // Can't find a better solution since you cant copy() a trait or an abstract class...
+    // TODO : find something else... Library Shapeless ?
+    def copyWithNewGrid(myGrid: Grid): Player
+    def copyWithNewScore(score: Int): Player
 
     /**
         Ask the player to enter coordinate for a shoot.

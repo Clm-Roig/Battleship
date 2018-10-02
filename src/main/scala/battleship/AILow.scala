@@ -1,14 +1,16 @@
 package battleship
 import scala.util.Random
 
-case class AILow(name: String = "AI low", myGrid: Grid = new Grid(), score: Int = 0, 
-output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
+case class AILow(name: String = "AI low", myGrid: Grid = new Grid(), score: Int = 0,
+    input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput)) extends Player {
+
+    override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
+    override def copyWithNewScore(score: Int): Player = this.copy(score = score)
 
     /**
         Ask to shoot (random shoot).
     */
     override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {     
-        output.display(opponentGrid.toStringToOpponent())
         val x = (new Random).nextInt(this.myGrid.size)
         val y = (new Random).nextInt(this.myGrid.size)
         return (x,y)

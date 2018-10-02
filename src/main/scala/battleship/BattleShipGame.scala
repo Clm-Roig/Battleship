@@ -121,10 +121,8 @@ object BattleSchipGame extends App {
             if(this.askForAnotherGame()) {
                 output.clear()
                 
-                val p1 = if(state.player1.isInstanceOf[Human]) state.player1.asInstanceOf[Human].copy(myGrid = new Grid()) 
-                    else state.player1.asInstanceOf[AILow].copy(myGrid = new Grid())
-                val p2 = if(state.player2.isInstanceOf[Human]) state.player2.asInstanceOf[Human].copy(myGrid = new Grid()) 
-                    else state.player2.asInstanceOf[AILow].copy(myGrid = new Grid())
+                val p1 = state.player1.copyWithNewGrid(myGrid = new Grid()) 
+                val p2 = state.player2.copyWithNewGrid(myGrid = new Grid()) 
 
                 // TODO : refactor all this part (see end of start() method)
                 // Place ships
@@ -166,39 +164,37 @@ object BattleSchipGame extends App {
         val currentPlayer = state.currentPlayer
 
         // Shoot
-        output.display(currentPlayer.name + ", it's your turn!")
+        output.display("It's " + currentPlayer.name + "'s turn!")
+        currentPlayer.output.get.display(currentPlayer.myGrid.toStringToSelf())
 
         val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
-
+        output.display(currentPlayer.name + " shoots at (" + coords._1 + "," + (coords._2 + 'A').toChar +")...")
         val shotResult = nextPlayer.myGrid.shootHere(coords._1, coords._2)
         val ship: Option[Ship] = shotResult._1
         val shipName = ship.getOrElse("")
         val shotState: String = shotResult._2
         val newGrid: Grid = shotResult._3
 
-        if(shotState == Grid.MISS) output.display("You missed!")
-        if(shotState == Grid.HIT) output.display("You hit a " + shipName + "!")
-        if(shotState == Grid.SUNK) output.display("You have sunk a " + shipName + "!!")
+        if(shotState == Grid.MISS) output.display("Missed!")
+        if(shotState == Grid.HIT) output.display(shipName + " hit!")
+        if(shotState == Grid.SUNK) output.display(shipName + " sunk!!")
         
         // Update data by creating new objects 
-        val nextPlayerWithGridUpdated = if(nextPlayer.isInstanceOf[Human]) nextPlayer.asInstanceOf[Human].copy(myGrid = newGrid) 
-            else nextPlayer.asInstanceOf[AILow].copy(myGrid = newGrid)
-        
-        output.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
+        val nextPlayerWithGridUpdated = nextPlayer.copyWithNewGrid(myGrid = newGrid)         
+        currentPlayer.output.get.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
 
         // Check if game is over
         if(nextPlayerWithGridUpdated.myGrid.areAllShipsSunk()) {
-            output.display("All " + nextPlayer.name + "'s ships are sunk, " + currentPlayer.name + " wins ! Congratulations!")
+            output.display("All " + nextPlayer.name + "'s ships are sunk, " + currentPlayer.name + " wins! Congratulations!")
 
             // Increase score of currentPlayer
-            val newCurrentPlayer = if(currentPlayer.isInstanceOf[Human]) currentPlayer.asInstanceOf[Human].copy(score = currentPlayer.score + 1)
-                else currentPlayer.asInstanceOf[AILow].copy(score = currentPlayer.score + 1)
+            val newCurrentPlayer = currentPlayer.copyWithNewScore(score = currentPlayer.score + 1)
             
             // Player1 saved as player1 (same for p2)
             val lastState = if(currentPlayer == state.player1) state.copy(player1 = newCurrentPlayer, player2 = nextPlayer, nbOfGames = state.nbOfGames + 1)
                 else state.copy(player1 = nextPlayer, player2 = newCurrentPlayer, nbOfGames = state.nbOfGames + 1)
 
-            output.display(state.nbOfGames + " game(s) played.")
+            output.display(lastState.nbOfGames + " game(s) played.")
             output.display("===== SCORE =====\n" 
                 + newCurrentPlayer.name + ": " + newCurrentPlayer.score 
                 + "\n" + nextPlayer.name + ": " + nextPlayer.score 
@@ -208,9 +204,11 @@ object BattleSchipGame extends App {
         }
 
         // Prepare for next turn
-        output.display("Press any key to let " + nextPlayer.name + " plays.")
-        scala.io.StdIn.readLine()
-        output.clear()    
+        if(currentPlayer.isInstanceOf[Human]) {
+            currentPlayer.output.get.display("Press any key to let " + nextPlayer.name + " plays.")
+            scala.io.StdIn.readLine()
+            output.clear()    
+        }
         if(currentPlayer == state.player1) 
             battleLoop(state.copy(player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
         else 
