@@ -7,9 +7,11 @@ trait Player {
 
     /**
         Ask the player to enter coordinate for a shoot.
+        @param opponentGrid Grid of the opponent
+
         @return (Int,Int) x coordinate, y coordinate
     */
-    def askForShootCoordinates(): (Int,Int)
+    def askForShootCoordinates(opponentGrid: Grid): (Int,Int)
 
     /**
         Ask the player to place a Ship. 

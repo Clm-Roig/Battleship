@@ -3,13 +3,25 @@ package battleship
 case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, 
 output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
 
-    def askForShootCoordinates(): (Int,Int) = {
-        // TODO
-        val valueTyped = input.askString()
-        
-        (1,1)
+    /**
+        Ask the human player to shoot by entering the coordinates desired.
+    */
+    def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {        
+        output.display(opponentGrid.toStringToOpponent())
+        // x coordinate
+        output.display("Enter the x coordinate (between 0 and " + (this.myGrid.size - 1) + ").")
+        val x = this.askToEnterXCoordinate()
+
+        // y coordinate
+        output.display("Enter the y coordinate (between A and " + (this.myGrid.size + 'A' - 1).toChar + ").")
+        val y = this.askToEnterYCoordinate()
+
+        return (x,y)
     }
 
+    /**
+        Ask the human player to place a ship by typing the coordinates desired.
+    */
     def askToPlaceAShip(ship: Ship): Player = {
         output.display(this.myGrid.toStringToSelf())
         // x coordinate

@@ -66,13 +66,24 @@ object BattleSchipGame extends App {
         // Launch the battle
         output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")
         if (beginner == 0) output.display(p1.name + " starts.") else output.display(p2.name + " starts.")
-        val state = GameState(new Human(name = p1.name), new Human(name = p2.name), beginner)
+        val state = GameState(new Human(name = p1.name), new Human(name = p2.name), beginner, beginner)
         gameLoop(state)
     }
 
     // Game loop (turn after turn)
     def gameLoop(state: GameState) {
         
+        // Check if game is over
+
+        // Shoot
+        println("Turn!")
+
+        // Update data by creating new objects 
+        val newP1 = new Human("toto")
+        val newP2 = new Human("tata")
+        val newCurrentPlayer = if(state.currentPlayer == 0) 1 else 0
+        val newState = state.copy(player1 = newP1, player2 = newP2, currentPlayer = newCurrentPlayer)
+        gameLoop(newState)        
     }
 
     /**

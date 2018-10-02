@@ -76,43 +76,6 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Return a new positions Array with all the cells given change to symbol.
-        @param positions Array(Array[String]) current positions Array
-        @param cellsToChange Array[(Int,Int)] cells to modify
-        @param symbol String the symbol to use for modification
-
-        @return Array(Array[String]) the new positions Array updated.
-    */
-    def updatePositions(positions: Array[Array[String]], cellsToChange: Array[(Int,Int)], symbol: String)
-    : Array[Array[String]]  = {
-        if(cellsToChange.length == 0) positions
-        else {
-            val cellToChange = cellsToChange.last
-            var newPositions = Array.ofDim[String](this.size, this.size)
-            positions.zipWithIndex.foreach{
-                case(x,i) => {
-                    if(i == cellToChange._1) {
-                        x.zipWithIndex.foreach{
-                            case(y, j) => {
-                                if(j == cellToChange._2) {
-                                    newPositions(i)(j) = symbol
-                                }
-                                else {
-                                    newPositions(i)(j) = y
-                                }
-                            }
-                        }
-                    } else {
-                        newPositions(i) = x
-                    }
-                }
-            }
-            val newCellsToChange = cellsToChange.take(cellsToChange.length - 1)
-            updatePositions(newPositions, newCellsToChange, symbol)
-        }
-    }
-
-    /**
         Return the cells passed through from the coordinate(x,y) according to the 
         direction and the nbOfCells given. The initial cell is included in the result.
         @param x x coordinate of the initial cell
@@ -172,6 +135,44 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         (xCoord, yCoord)
     }
 
+     /**
+        Return a new positions Array with all the cells given change to symbol.
+        @param positions Array(Array[String]) current positions Array
+        @param cellsToChange Array[(Int,Int)] cells to modify
+        @param symbol String the symbol to use for modification
+
+        @return Array(Array[String]) the new positions Array updated.
+    */
+    def updatePositions(positions: Array[Array[String]], cellsToChange: Array[(Int,Int)], symbol: String)
+    : Array[Array[String]]  = {
+        if(cellsToChange.length == 0) positions
+        else {
+            val cellToChange = cellsToChange.last
+            var newPositions = Array.ofDim[String](this.size, this.size)
+            positions.zipWithIndex.foreach{
+                case(x,i) => {
+                    if(i == cellToChange._1) {
+                        x.zipWithIndex.foreach{
+                            case(y, j) => {
+                                if(j == cellToChange._2) {
+                                    newPositions(i)(j) = symbol
+                                }
+                                else {
+                                    newPositions(i)(j) = y
+                                }
+                            }
+                        }
+                    } else {
+                        newPositions(i) = x
+                    }
+                }
+            }
+            val newCellsToChange = cellsToChange.take(cellsToChange.length - 1)
+            updatePositions(newPositions, newCellsToChange, symbol)
+        }
+    }
+
+    // ==================== 
     /**
         String representation to be seen by the owner of the grid.
     */
@@ -197,7 +198,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     /**
         Return the case element formatted according to the symbol given. The 
         case element is intended to be seen by the owner of the grid (first letter
-        of boat displated for example).        
+        of boat displayed for example).        
         @example 
             "W" => "___"
             "X_hit" => """$RED█X$WHITE"""
@@ -212,6 +213,51 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 else s"""$RED█$letter█$WHITE"""
             } else {
                 "_" + symbol + "_"
+            }
+        }
+    }
+
+    // ==================== 
+    /**
+        String representation to be seen by the opponent of the grid.
+    */
+    def toStringToOpponent(): String = {
+        var res = s"""$WHITE
+        MY GRID:
+          $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
+        $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
+        """
+        this.positions.zipWithIndex.foreach {
+            case(x,i) => {
+                if(i != 0) res = res.concat("|\n        "+i+"   ")
+                else res = res.concat("0   ")
+                x.foreach { x => {
+                    res = res.concat("|").concat(this.getOpponentCaseElement(x))
+                }}
+            }
+        }
+        res = res.concat("|\n")
+        res
+    }
+
+    /**
+        Return the case element formatted according to the symbol given. The 
+        case element is intended to be seen by the opponent of the grid (first letter
+        of boat displated for example).        
+        @example 
+            "W" => "___"
+            "X_hit" => """$RED█X$WHITE"""
+    */
+    def getOpponentCaseElement(symbol: String): String = {
+        if(symbol == Grid.WATER) "___"
+        else {
+            // Hit cell
+            if(symbol.contains(Grid.HIT_SUFFIX)) {
+                val letter = symbol.substring(0, symbol.indexOf(Grid.HIT_SUFFIX))
+                if(letter == Grid.WATER) s"""$CYAN███$WHITE"""
+                else s"""$RED███$WHITE"""
+            } else {
+                "___"
             }
         }
     }
