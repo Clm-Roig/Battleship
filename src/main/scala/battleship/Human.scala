@@ -6,7 +6,7 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
     /**
         Ask the human player to shoot by entering the coordinates desired.
     */
-    def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {        
+    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {        
         output.display(opponentGrid.toStringToOpponent())
         // x coordinate
         output.display("Enter the x coordinate (between 0 and " + (this.myGrid.size - 1) + ").")
@@ -23,7 +23,7 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
     /**
         Ask the human player to place a ship by typing the coordinates desired.
     */
-    def askToPlaceAShip(ship: Ship): Player = {
+    override def askToPlaceAShip(ship: Ship): Player = {
         output.display(this.myGrid.toStringToSelf())
         // x coordinate
         output.display("Enter the x coordinate of the ship (between 0 and " + (this.myGrid.size - 1) + ").")
@@ -112,6 +112,10 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
                 dir
             }
         } catch {
+            case e : StringIndexOutOfBoundsException => {
+                output.displayError("Enter a letter please.")
+                askToEnterDirection()
+            }
             case _ : Throwable => {
                 output.display("Unexpected exception.")
                 askToEnterDirection()

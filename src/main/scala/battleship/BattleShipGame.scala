@@ -5,20 +5,16 @@ object BattleSchipGame extends App {
     // ===== CONST
     val GAME_TYPES = Array(
         "Human vs Human",
-        "Human vs IA low",
-        "Human vs IA medium",
-        "Human vs IA hard",
-        "IA low vs IA medium",
-        "IA medium vs IA hard",
-        "IA low vs IA hard"
+        "Human vs AI (low)",
+        "Human vs AI (medium)",
+        "Human vs AI (hard)",
     )
 
     val SHIPS = Array(
-        /*
         new Ship("Carrier","C",5),
         new Ship("Battleship","B",4),
         new Ship("Cruiser","c",3),
-        new Ship("Submarine","S",3),*/
+        new Ship("Submarine","S",3),
         new Ship("Destroyer","D",2)
     )
 
@@ -38,41 +34,85 @@ object BattleSchipGame extends App {
         output.display("====================")
         val gameType = askForGameType()
 
-        // TODO : case depending on gameType
-        output.clear()
-        output.display("Player 1 name:")
-        val p1Name = scala.io.StdIn.readLine()
-        val p1 = new Human(p1Name)
-        output.display("Player 2 name:")
-        val p2Name = scala.io.StdIn.readLine()
-        val p2 = new Human(p2Name)
+        gameType match {
+            // Human VS Human
+            case 0 => {
+                output.clear()
+                output.display("Player 1 name:")
+                val p1Name = scala.io.StdIn.readLine()
+                val p1 = new Human(p1Name)
+                output.display("Player 2 name:")
+                val p2Name = scala.io.StdIn.readLine()
+                val p2 = new Human(p2Name)
 
-        val beginner = (new Random).nextInt(2)
+                val beginner = (new Random).nextInt(2)
 
-        // Place ships
-        val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
-        output.clear()
-        output.display(player1.myGrid.toStringToSelf())
-        output.display("Press any key to let " + p2Name + " place his ships.")
-        scala.io.StdIn.readLine()
-        output.clear()
+                // Place ships
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
+                output.clear()
+                output.display(player1.myGrid.toStringToSelf())
+                output.display("Press any key to let " + p2Name + " place his ships.")
+                scala.io.StdIn.readLine()
+                output.clear()
 
-        val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
-        output.clear()
-        output.display(player2.myGrid.toStringToSelf())
-        output.display("Press any key to start the battle.")
-        scala.io.StdIn.readLine()
-        output.clear()
-        
-        // Launch the battle
-        val state = if (beginner == 0) {
-            output.display(player1.name + " starts.") 
-            new GameState(new Human(name = player1.name, myGrid = player1.myGrid), new Human(name = player2.name, myGrid = player2.myGrid), beginner)
-        } else {
-            output.display(player2.name + " starts.")
-            new GameState(new Human(name = player1.name, myGrid = player1.myGrid), new Human(name = player2.name, myGrid = player2.myGrid), beginner)
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
+                output.clear()
+                output.display(player2.myGrid.toStringToSelf())
+                output.display("Press any key to start the battle.")
+                scala.io.StdIn.readLine()
+                output.clear()
+                
+                // Launch the battle
+                val state = if (beginner == 0) {
+                    output.display(player1.name + " starts.") 
+                    new GameState(player1, player2, beginner)
+                } else {
+                    output.display(player2.name + " starts.")
+                    new GameState(player1, player2, beginner)
+                }
+                val lastState = gameLoop(state)
+            }
+            // Human VS AI (low)
+            case 1 => {
+                output.clear()
+                output.display("Player 1 name:")
+                val p1Name = scala.io.StdIn.readLine()
+                val p1 = new Human(p1Name)
+                val p2 = new AILow()
+
+                val beginner = (new Random).nextInt(2)
+
+                // Place ships
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
+                output.clear()
+                output.display(player1.myGrid.toStringToSelf())
+                output.display("Press any key to let " + p2.name + " place his ships.")
+                scala.io.StdIn.readLine()
+                output.clear()
+
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
+                
+                // Launch the battle
+                val state = if (beginner == 0) {
+                    output.display(player1.name + " starts.") 
+                    new GameState(player1, player2, beginner)
+                } else {
+                    output.display(player2.name + " starts.")
+                    new GameState(player1, player2, beginner)
+                }
+                val lastState = gameLoop(state)
+            }
+            case 2 => {
+                output.displayError("Game type not implementend yet.")
+            }
+            case 3 => {
+                output.displayError("Game type not implementend yet.")
+            }
+            case _ => {
+                output.displayError("Unkown game type.")
+            }
         }
-        val lastState = gameLoop(state)
+        
     }
 
     // Game loop (play another game ?)
@@ -82,9 +122,9 @@ object BattleSchipGame extends App {
                 output.clear()
                 
                 val p1 = if(state.player1.isInstanceOf[Human]) state.player1.asInstanceOf[Human].copy(myGrid = new Grid()) 
-                    else state.player1.asInstanceOf[IA].copy(myGrid = new Grid())
+                    else state.player1.asInstanceOf[AILow].copy(myGrid = new Grid())
                 val p2 = if(state.player2.isInstanceOf[Human]) state.player2.asInstanceOf[Human].copy(myGrid = new Grid()) 
-                    else state.player2.asInstanceOf[IA].copy(myGrid = new Grid())
+                    else state.player2.asInstanceOf[AILow].copy(myGrid = new Grid())
 
                 // TODO : refactor all this part (see end of start() method)
                 // Place ships
@@ -142,7 +182,7 @@ object BattleSchipGame extends App {
         
         // Update data by creating new objects 
         val nextPlayerWithGridUpdated = if(nextPlayer.isInstanceOf[Human]) nextPlayer.asInstanceOf[Human].copy(myGrid = newGrid) 
-            else nextPlayer.asInstanceOf[IA].copy(myGrid = newGrid)
+            else nextPlayer.asInstanceOf[AILow].copy(myGrid = newGrid)
         
         output.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
 
@@ -152,7 +192,7 @@ object BattleSchipGame extends App {
 
             // Increase score of currentPlayer
             val newCurrentPlayer = if(currentPlayer.isInstanceOf[Human]) currentPlayer.asInstanceOf[Human].copy(score = currentPlayer.score + 1)
-                else currentPlayer.asInstanceOf[IA].copy(score = currentPlayer.score + 1)
+                else currentPlayer.asInstanceOf[AILow].copy(score = currentPlayer.score + 1)
             
             // Player1 saved as player1 (same for p2)
             val lastState = if(currentPlayer == state.player1) state.copy(player1 = newCurrentPlayer, player2 = nextPlayer, nbOfGames = state.nbOfGames + 1)
