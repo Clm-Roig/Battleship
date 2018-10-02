@@ -1,5 +1,5 @@
 package battleship
-import Console.{WHITE_B, BLACK, WHITE, RED, RESET, CYAN, UNDERLINED}
+import Console.{WHITE_B, BLACK, GREEN, WHITE, RED, RESET, CYAN, UNDERLINED}
 import scala.annotation.tailrec
 
 /**
@@ -231,11 +231,13 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         String representation to be seen by the owner of the grid.
     */
     def toStringToSelf(): String = {
-        var res = s"""$WHITE
-        MY GRID:
+        var res = s"""$WHITE MY GRID"""
+        res = res.concat(s"""$WHITE""" + "    Remaining Ships: " + this.ships.count(_.lifePoints > 0) + "/" + this.ships.length)
+
+        res = res.concat(s"""
           $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
-        """
+        """)
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
                 if(i != 0) res = res.concat("|\n        "+i+"   ")
@@ -276,11 +278,13 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         String representation to be seen by the opponent of the grid.
     */
     def toStringToOpponent(): String = {
-        var res = s"""$WHITE
-        OPPONENT GRID:
-          $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
+        // Remaining ships
+        var res = s"""$WHITE OPPONENT GRID"""
+        res = res.concat(s"""$WHITE""" + "    Remaining Ships: " + this.ships.count(_.lifePoints > 0) + "/" + this.ships.length)
+
+        res = res.concat("""$WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
-        """
+        """)
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
                 if(i != 0) res = res.concat("|\n        "+i+"   ")
