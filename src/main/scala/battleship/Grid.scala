@@ -276,7 +276,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     */
     def toStringToOpponent(): String = {
         var res = s"""$WHITE
-        MY GRID:
+        OPPONENT GRID:
           $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
         """

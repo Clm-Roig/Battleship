@@ -15,10 +15,10 @@ object BattleSchipGame extends App {
 
     val SHIPS = Array(
         new Ship("Carrier","C",5),
-        new Ship("Battleship","B",4),
+        /*new Ship("Battleship","B",4),
         new Ship("Cruiser","c",3),
         new Ship("Submarine","S",3),
-        new Ship("Destroyer","D",2),
+        new Ship("Destroyer","D",2),*/
     )
 
     val output = ConsoleOutput
@@ -61,18 +61,22 @@ object BattleSchipGame extends App {
         output.display(player2.myGrid.toStringToSelf())
         output.display("Press any key to start the battle.")
         scala.io.StdIn.readLine()
-        output.clear() 
         
         // Launch the battle
-        output.display("\nThe battle between " + p1.name + " & " + p2.name + " begins!")
-        if (beginner == 0) output.display(p1.name + " starts.") else output.display(p2.name + " starts.")
-        val state = new GameState(new Human(name = p1.name), new Human(name = p2.name), beginner)
+        output.display("\nThe battle between " + player1.name + " & " + player2.name + " begins!")
+        val state = if (beginner == 0) {
+            output.display(player1.name + " starts.") 
+            new GameState(new Human(name = player1.name, myGrid = player1.myGrid), new Human(name = player2.name, myGrid = player2.myGrid), beginner)
+        } else {
+            output.display(player2.name + " starts.")
+            new GameState(new Human(name = player1.name, myGrid = player1.myGrid), new Human(name = player2.name, myGrid = player2.myGrid), beginner)
+        }
         val lastState = gameLoop(state)
     }
 
     // Game loop (turn after turn)
     def gameLoop(state: GameState): GameState = {
-        val nextPlayer = if(state.currentPlayer == state.player1) state.player1 else state.player2
+        val nextPlayer = if(state.currentPlayer == state.player1) state.player2 else state.player1
         val currentPlayer = state.currentPlayer
 
         // Check if game is over
@@ -84,8 +88,18 @@ object BattleSchipGame extends App {
             output.display(currentPlayer.name + " wins ! Congratulations!")
             state
         }
+
         // Shoot
         output.clear()
+
+        println("===== Grid of current player =====")
+        println(currentPlayer.myGrid.toStringToSelf)
+        println(currentPlayer.myGrid.toStringToOpponent)
+        
+        println("===== Grid of next player =====")
+        println(nextPlayer.myGrid.toStringToSelf)
+        println(nextPlayer.myGrid.toStringToOpponent)
+
         output.display(currentPlayer.name + ", it's your turn!")
         val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
 
@@ -102,9 +116,10 @@ object BattleSchipGame extends App {
         // Update data by creating new objects 
         val nextPlayerWithGridUpdated = if(nextPlayer.isInstanceOf[Human]) nextPlayer.asInstanceOf[Human].copy(myGrid = newGrid) 
             else nextPlayer.asInstanceOf[IA].copy(myGrid = newGrid)
-        if(currentPlayer == state.player1) state.copy(player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated)
-        else state.copy(player1 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated)
-        
+        if(currentPlayer == state.player1) 
+            gameLoop(state.copy(player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
+        else 
+            gameLoop(state.copy(player1 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
     }
 
     /**
