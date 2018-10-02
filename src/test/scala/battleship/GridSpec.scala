@@ -40,6 +40,7 @@ class GridSpec extends fixture.FunSuite {
             case g: Grid => true
             case _ => false
         })
+        assert(newGrid.ships.length == 1)
     } 
 
     // direction
@@ -106,7 +107,59 @@ class GridSpec extends fixture.FunSuite {
         val nextCell = f.grid.nextCell(0,0,"W")
         assert(nextCell._1 == 0)
         assert(nextCell._2 == -1)
-    }  
+    } 
+
+    // ===== shootHere() tests
+    test("shootHere(): siph hit.") { f => 
+        val initialGrid = f.grid.addShip(3,'B',f.ship,"S")
+        val resultAfterShoot = initialGrid.shootHere(3,1)
+
+        val ship: Option[Ship] = resultAfterShoot._1
+        val shootState: String = resultAfterShoot._2
+        val newGrid: Grid = resultAfterShoot._3
+
+        assert(shootState == "hit")
+        assert(ship.get.symbol == "T")
+        assert(newGrid.positions(3)(1) == "T_hit")
+    } 
+
+    test("shootHere(): ship sunk.") { f => 
+        val initialGrid = f.grid.addShip(1,'B',new Ship("Test", "T", 2),"S")
+        val resultAfterShoot = initialGrid.shootHere(1,1)
+        val newGrid: Grid = resultAfterShoot._3
+
+        val resultAfterShoot2 = newGrid.shootHere(2,1)
+        val ship2: Option[Ship] = resultAfterShoot2._1
+        val shootState2: String = resultAfterShoot2._2
+        val newGrid2: Grid = resultAfterShoot2._3
+
+        assert(shootState2 == "sunk")
+        assert(ship2.get.symbol == "T")
+        assert(newGrid2.positions(2)(1) == "T_hit")
+    } 
+
+    test("shootHere(): miss.") { f => 
+        val resultAfterShoot = f.grid.shootHere(2,1)
+
+        val ship: Option[Ship] = resultAfterShoot._1
+        val shootState: String = resultAfterShoot._2
+        val newGrid: Grid = resultAfterShoot._3
+
+        assert(shootState == "miss")
+        assert(!ship.isDefined)
+        assert(newGrid.positions(2)(1) == "W_hit")
+    }
+
+    test("shootHere(): out of grid coordinate.") { f => 
+        val resultAfterShoot = f.grid.shootHere(200,-100)
+
+        val ship: Option[Ship] = resultAfterShoot._1
+        val shootState: String = resultAfterShoot._2
+        val newGrid: Grid = resultAfterShoot._3
+
+        assert(shootState == "miss")
+        assert(!ship.isDefined)
+    }
 
     // ===== toStringToSelf() tests
     test("toStringToSelf()") { f => 

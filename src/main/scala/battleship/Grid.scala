@@ -71,8 +71,9 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
 
         // Everything ok, place the Ship
         val newPositions = this.updatePositions(this.positions, cellsToCheck, s.symbol)
+        val newShips = this.ships :+ s
         
-        this.copy(positions = newPositions)        
+        this.copy(positions = newPositions, ships = newShips)        
     }
 
     /**
@@ -133,6 +134,55 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
             case _ => x
         }
         (xCoord, yCoord)
+    }
+
+    /**
+        Shoot at the position given. Return a Grid updated, the state of the shot (hit, miss or sunk) 
+        and the potentially hit or sunk ship.
+        @param x x coordinate of the shoot (no check performed to see if the value is valid.
+            If x is out of grid, the shot will miss.) 
+        @param y y coordinate of the shoot (no check performed to see if the value is valid.
+            If y is out of grid, the shot will miss.)
+
+        @return (Option[Ship], String, Grid), the potentially ship hit or sunk, the state of the shot
+        ("hit", "sunk" or "miss") and the Grid updated after the shot.
+    */
+    def shootHere(x: Int, y: Int): (Option[Ship], String, Grid) = {
+        if(this.isShipHere(x,y)) {
+            val cellText = this.positions(x)(y)
+
+            if(cellText.contains(Grid.HIT_SUFFIX)) {
+                // Ship already hit
+                val symbol = cellText.substring(0, cellText.indexOf(Grid.HIT_SUFFIX))
+                val ship = this.ships.filter(_.symbol == symbol)(0)
+                val state = "hit"
+                val grid = this.copy()
+                (Some(ship), state, grid)
+            } else {
+                // Ship hit
+                // Update positions and ships
+
+                println("I shoot here: x="+x+"  y="+y)
+                println(toStringToSelf())
+
+                val newPositions = this.updatePositions(this.positions, Array((x,y)), cellText.concat(Grid.HIT_SUFFIX))
+                val ship = this.ships.filter(_.symbol == cellText)(0).hit()
+                val newShips = this.ships.filter(_.symbol != cellText) :+ ship
+
+                // Sunk ?
+                val state = if(ship.lifePoints == 0) "sunk" else "hit"
+
+                // Return objects
+                val grid = this.copy(positions = newPositions, ships = newShips)
+                (Some(ship), state, grid)            
+            }
+            
+        } else {
+            val state = "miss"
+            val newPositions = this.updatePositions(this.positions, Array((x,y)), Grid.WATER_HIT)
+            val grid = this.copy(positions = newPositions)
+            (None, state, grid)
+        }
     }
 
      /**
