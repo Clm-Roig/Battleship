@@ -38,7 +38,7 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
         val dir = this.askToEnterDirection()
         try {
             val newGrid = this.myGrid.addShip(x,y,ship,dir)
-            new Human(this.name, newGrid)
+            this.copy(myGrid = newGrid)
         } catch {
             case e: Exception => {
                 output.displayError(e.getMessage)
