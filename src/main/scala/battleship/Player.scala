@@ -6,6 +6,7 @@ trait Player {
     val score: Int
     val output: Option[Output]
     val input: Option[Input]
+    val shotsFired: Array[(Int,Int, String)]
 
     // Can't find a better solution since you cant copy() a trait or an abstract class...
     // TODO : find something else... Library Shapeless ?

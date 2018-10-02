@@ -2,7 +2,8 @@ package battleship
 import scala.util.Random
 
 case class AIMedium(name: String = "AI low", myGrid: Grid = new Grid(), score: Int = 0,
-    input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput) ) extends Player {
+    input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
+    shotsFired: Array[(Int,Int,String)] = Array()) extends Player {
 
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)

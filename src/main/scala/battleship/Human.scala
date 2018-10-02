@@ -1,7 +1,11 @@
 package battleship
 
+/**
+    A Human Player. He has to interact with the software by entering values via his input. 
+*/
 case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, 
-    input: Option[Input] = Some(ConsoleInput), output: Option[Output] = Some(ConsoleOutput)) extends Player {
+    input: Option[Input] = Some(ConsoleInput), output: Option[Output] = Some(ConsoleOutput), 
+    shotsFired: Array[(Int,Int,String)] = Array()) extends Player {
 
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)

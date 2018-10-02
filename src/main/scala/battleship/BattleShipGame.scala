@@ -38,6 +38,7 @@ object BattleSchipGame extends App {
         gameType match {
             // Human VS Human
             case 0 => {
+                // Enter players name
                 output.clear()
                 output.display("Player 1 name:")
                 val p1Name = scala.io.StdIn.readLine()
@@ -75,6 +76,7 @@ object BattleSchipGame extends App {
             }
             // Human VS AI (low)
             case 1 => {
+                // Enter player name
                 output.clear()
                 output.display("Player 1 name:")
                 val p1Name = scala.io.StdIn.readLine()
@@ -112,8 +114,7 @@ object BattleSchipGame extends App {
             case _ => {
                 output.displayError("Unkown game type.")
             }
-        }
-        
+        }        
     }
 
     // Game loop (play another game ?)
