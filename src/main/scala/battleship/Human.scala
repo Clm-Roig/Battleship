@@ -14,7 +14,8 @@ output: Output = ConsoleOutput, input: Input = ConsoleInput) extends Player {
 
         // y coordinate
         output.display("Enter the y coordinate (between A and " + (this.myGrid.size + 'A' - 1).toChar + ").")
-        val y = this.askToEnterYCoordinate()
+        val yChar = this.askToEnterYCoordinate()
+        val y = yChar.toUpper.toInt - 'A'.toInt
 
         return (x,y)
     }

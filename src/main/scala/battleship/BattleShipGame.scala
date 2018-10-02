@@ -91,16 +91,8 @@ object BattleSchipGame extends App {
 
         // Shoot
         output.clear()
-
-        println("===== Grid of current player =====")
-        println(currentPlayer.myGrid.toStringToSelf)
-        println(currentPlayer.myGrid.toStringToOpponent)
-        
-        println("===== Grid of next player =====")
-        println(nextPlayer.myGrid.toStringToSelf)
-        println(nextPlayer.myGrid.toStringToOpponent)
-
         output.display(currentPlayer.name + ", it's your turn!")
+
         val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
 
         val shotResult = nextPlayer.myGrid.shootHere(coords._1, coords._2)
