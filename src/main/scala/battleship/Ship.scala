@@ -26,4 +26,8 @@ case class Ship (name: String, symbol: String, size: Int, lifePoints: Int) {
         val newLifePoints = if(this.lifePoints > 0) this.lifePoints - 1 else 0 
         this.copy(lifePoints = newLifePoints)
     }
+
+    override def toString: String = {
+        this.name + "[" + this.size + "]"
+    }
 }
