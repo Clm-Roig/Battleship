@@ -13,10 +13,11 @@ object BattleSchipGame extends App {
 
     val SHIPS = Array(
         new Ship("Carrier","C",5),
+        /*
         new Ship("Battleship","B",4),
         new Ship("Cruiser","c",3),
         new Ship("Submarine","S",3),
-        new Ship("Destroyer","D",2)
+        new Ship("Destroyer","D",2)*/
     )
 
     val output = ConsoleOutput
@@ -179,20 +180,25 @@ object BattleSchipGame extends App {
         val shotState: String = shotResult._2
         val newGrid: Grid = shotResult._3
 
+        val lastShot: (Int,Int,String) = (coords._1, coords._2, shotState)
+        val newShotsFired = currentPlayer.shotsFired + lastShot
+
         if(shotState == Grid.MISS) output.display("Missed!")
         if(shotState == Grid.HIT) output.display(shipName + " hit!")
         if(shotState == Grid.SUNK) output.display(shipName + " sunk!!")
         
         // Update data by creating new objects 
-        val nextPlayerWithGridUpdated = nextPlayer.copyWithNewGrid(myGrid = newGrid)         
+        val nextPlayerWithGridUpdated = nextPlayer.copyWithNewGrid(myGrid = newGrid)
         currentPlayer.output.get.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
+
+        val newCurrentPlayer = currentPlayer.copyWithNewShotsFired(shotsFired = newShotsFired)
 
         // Check if game is over
         if(nextPlayerWithGridUpdated.myGrid.areAllShipsSunk()) {
             output.display("All " + nextPlayer.name + "'s ships are sunk, " + currentPlayer.name + " wins! Congratulations!")
 
             // Increase score of currentPlayer
-            val newCurrentPlayer = currentPlayer.copyWithNewScore(score = currentPlayer.score + 1)
+            val newCurrentPlayer = currentPlayer.copyWithNewScore(score = currentPlayer.score + 1).copyWithNewShotsFired(shotsFired = newShotsFired)
             
             // Player1 saved as player1 (same for p2)
             val lastState = if(currentPlayer == state.player1) state.copy(player1 = newCurrentPlayer, player2 = nextPlayer, nbOfGames = state.nbOfGames + 1)
@@ -208,15 +214,15 @@ object BattleSchipGame extends App {
         }
 
         // Prepare for next turn
-        if(currentPlayer.isInstanceOf[Human]) {
+        if(newCurrentPlayer.isInstanceOf[Human]) {
             currentPlayer.output.get.display("Press any key to let " + nextPlayer.name + " plays.")
             scala.io.StdIn.readLine()
             output.clear()    
         }
-        if(currentPlayer == state.player1) 
-            battleLoop(state.copy(player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
+        if(newCurrentPlayer == state.player1) 
+            battleLoop(state.copy(player1 = newCurrentPlayer, player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
         else 
-            battleLoop(state.copy(player1 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
+            battleLoop(state.copy(player1 = nextPlayerWithGridUpdated, player2 = newCurrentPlayer, currentPlayer = nextPlayerWithGridUpdated))
     }
 
     /**

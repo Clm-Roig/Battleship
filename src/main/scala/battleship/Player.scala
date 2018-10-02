@@ -6,12 +6,13 @@ trait Player {
     val score: Int
     val output: Option[Output]
     val input: Option[Input]
-    val shotsFired: Array[(Int,Int, String)]
+    val shotsFired: Set[(Int,Int, String)]
 
     // Can't find a better solution since you cant copy() a trait or an abstract class...
     // TODO : find something else... Library Shapeless ?
     def copyWithNewGrid(myGrid: Grid): Player
     def copyWithNewScore(score: Int): Player
+    def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player
 
     /**
         Ask the player to enter coordinate for a shoot.

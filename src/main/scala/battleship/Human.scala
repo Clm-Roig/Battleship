@@ -5,10 +5,11 @@ package battleship
 */
 case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0, 
     input: Option[Input] = Some(ConsoleInput), output: Option[Output] = Some(ConsoleOutput), 
-    shotsFired: Array[(Int,Int,String)] = Array()) extends Player {
+    shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
 
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)
+    override def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player = this.copy(shotsFired = shotsFired)
 
     /**
         Ask the human player to shoot by entering the coordinates desired.

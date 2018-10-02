@@ -3,10 +3,11 @@ import scala.util.Random
 
 case class AILow(name: String = "AI low", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
-    shotsFired: Array[(Int,Int,String)] = Array()) extends Player {
+    shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
 
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)
+    override def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player = this.copy(shotsFired = shotsFired)
 
     /**
         Ask to shoot (random shoot).
