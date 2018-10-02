@@ -77,6 +77,13 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
+        Return true if all the ships are sunk (i.e, lifePoints == 0) or if there is no ship at all.
+    */
+    def areAllShipsSunk(): Boolean = {
+        this.ships.forall(s => s.isSunk())
+    }
+
+    /**
         Return the cells passed through from the coordinate(x,y) according to the 
         direction and the nbOfCells given. The initial cell is included in the result.
         @param x x coordinate of the initial cell

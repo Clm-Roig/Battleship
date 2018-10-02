@@ -77,6 +77,15 @@ class GridSpec extends fixture.FunSuite {
         }
     }
 
+    // ===== areAllShipsSunk() tests
+    test("areAllShipsSunk()") { f => 
+        assert(f.grid.areAllShipsSunk())
+        val newGrid = f.grid.addShip(1,'B',f.ship,"S")
+        assert(!newGrid.areAllShipsSunk())
+        val finalGrid = newGrid.shootHere(1,1)._3.shootHere(2,1)._3.shootHere(3,1)._3.shootHere(4,1)._3
+        assert(finalGrid.areAllShipsSunk())
+    }
+
     // ===== getCellsToCheck() tests
     test("getCellsToCheck(): common usage.") { f => 
         val cells = f.grid.getCellsToCheck(0,0,"S",2)
