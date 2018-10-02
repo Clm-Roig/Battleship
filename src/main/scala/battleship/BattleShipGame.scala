@@ -15,10 +15,10 @@ object BattleSchipGame extends App {
 
     val SHIPS = Array(
         new Ship("Carrier","C",5),
-        /*new Ship("Battleship","B",4),
+        new Ship("Battleship","B",4),
         new Ship("Cruiser","c",3),
         new Ship("Submarine","S",3),
-        new Ship("Destroyer","D",2),*/
+        new Ship("Destroyer","D",2)
     )
 
     val output = ConsoleOutput
