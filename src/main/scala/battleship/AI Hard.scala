@@ -2,7 +2,7 @@ package battleship
 import scala.util.Random
 import scala.annotation.tailrec
 
-case class AIHard(name: String = "AI hard", myGrid: Grid = new Grid(), score: Int = 0,
+case class AIHard(name: String = "AI Level Hard", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
     shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
 

@@ -1,7 +1,7 @@
 package battleship
 import scala.util.Random
 
-case class AILow(name: String = "AI low", myGrid: Grid = new Grid(), score: Int = 0,
+case class AILow(name: String = "AI Level Beginner", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
     shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
 

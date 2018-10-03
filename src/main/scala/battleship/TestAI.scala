@@ -2,6 +2,8 @@ package battleship
 import scala.util.Random
 import scala.annotation.tailrec
 import Console.{GREEN, RESET}
+import java.io.{BufferedWriter, File, FileWriter}
+
 
 object TestAI extends App {
     // ===== CONST
@@ -20,7 +22,7 @@ object TestAI extends App {
         new Ship("Destroyer","D",2)
     )
 
-    val NB_OF_GAMES_TO_PLAY = 1000
+    val NB_OF_GAMES_TO_PLAY = 100
     val output = ConsoleOutput
 
     start()
@@ -32,9 +34,9 @@ object TestAI extends App {
 
         // Init
         output.clear()
-        output.display("====================")
-        output.display("==== BATTLESHIP ====")
-        output.display("====================")
+        output.display("=======================================")
+        output.display("========= BATTLESHIP: Test AI =========")
+        output.display("=======================================\n")
         val gameType = askForGameType()
 
         gameType match {
@@ -102,6 +104,8 @@ object TestAI extends App {
                 output.display("")
                 outputFinalResult(lastState3)
                 output.display("")
+
+                createCSVRecap(Array(lastState1, lastState2, lastState3))
             }
             case _ => {
                 output.displayError("Unkown game type.")
@@ -240,5 +244,26 @@ object TestAI extends App {
         } catch {
             case e: NumberFormatException => askForGameType()
         }
+    }
+
+    def createCSVRecap(states: Array[GameState]): Unit = {
+        val header = "AI Name;score;AI Name2;score2\n"
+        val fileName = "ai_proof.csv"
+        val scores = states.map( state => {
+            val (p1, p2) = (state.player1, state.player2)
+            // First AI print is the weakest one
+            if(p1.isInstanceOf[AILow]) p1.name + ";" + p1.score + ";" + p2.name + ";" + p2.score
+            else if(p2.isInstanceOf[AIMedium]) p2.name + ";" + p2.score + ";" + p1.name + ";" + p1.score
+            else if(p2.isInstanceOf[AILow]) p2.name + ";" + p2.score + ";" + p1.name + ";" + p1.score
+            else p1.name + ";" + p1.score + ";" + p2.name + ";" + p2.score            
+        }).mkString("\n")
+
+        // File writing
+        val file = new File(fileName)
+        val bw = new BufferedWriter(new FileWriter(file))
+        bw.write(header.concat(scores))
+        bw.close()  
+
+        output.display("Recap file ai_proof.csv written successfully!")      
     }
 }
