@@ -9,6 +9,7 @@ object TestAI extends App {
         "AI(low) vs AI (medium)",
         "AI(low) vs AI (hard)",
         "AI(medium) vs AI (hard)",
+        "All 3 above"
     )
 
     val SHIPS = Array(
@@ -41,17 +42,13 @@ object TestAI extends App {
             case 0 => {
                 output.clear()
                 val beginner = (new Random).nextInt(2)
+
                 // Place ships
                 val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AILow())   
                 val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIMedium())   
                 
-                // Launch the battle
-                val state = if (beginner == 0) {
-                    new GameState(player1, player2, beginner)
-                } else {
-                    new GameState(player1, player2, beginner)
-                }
-                val lastState = gameLoop(state)
+                // Create State and launch the battle
+                val lastState = gameLoop(new GameState(player1, player2, beginner))
                 outputFinalResult(lastState)
             }
             // AI(low) vs AI (hard)
@@ -62,13 +59,8 @@ object TestAI extends App {
                 val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AILow())   
                 val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())   
                 
-                // Launch the battle
-                val state = if (beginner == 0) {
-                    new GameState(player1, player2, beginner)
-                } else {
-                    new GameState(player1, player2, beginner)
-                }
-                val lastState = gameLoop(state)
+                // Create state and launch the battle
+                val lastState = gameLoop(new GameState(player1, player2, beginner))
                 outputFinalResult(lastState)            
             }
             // AI(medium) vs AI (hard)
@@ -79,14 +71,36 @@ object TestAI extends App {
                 val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIMedium())   
                 val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())   
                 
-                // Launch the battle
-                val state = if (beginner == 0) {
-                    new GameState(player1, player2, beginner)
-                } else {
-                    new GameState(player1, player2, beginner)
-                }
-                val lastState = gameLoop(state)
+                // Create State and launch the battle
+                val lastState = gameLoop(new GameState(player1, player2, beginner))
                 outputFinalResult(lastState) 
+            }
+            // 3 above
+            case 3 => {
+                output.clear()
+                val beginner1 = (new Random).nextInt(2)
+                val beginner2 = (new Random).nextInt(2)
+                val beginner3 = (new Random).nextInt(2)
+
+                // Place ships for all AI
+                val low1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AILow())   
+                val low2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AILow())   
+                val medium1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIMedium())  
+                val medium2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIMedium())   
+                val hard1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())  
+                val hard2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())   
+                
+                // Create States and launch the battles
+                val lastState1 = gameLoop(new GameState(low1, medium1, beginner1))
+                val lastState2 = gameLoop(new GameState(low2, hard1, beginner2))
+                val lastState3 = gameLoop(new GameState(hard2, medium2, beginner3))
+
+                outputFinalResult(lastState1) 
+                output.display("")
+                outputFinalResult(lastState2) 
+                output.display("")
+                outputFinalResult(lastState3)
+                output.display("")
             }
             case _ => {
                 output.displayError("Unkown game type.")
@@ -151,7 +165,7 @@ object TestAI extends App {
             val newCurrentPlayerUpdated = newCurrentPlayer.copyWithNewScore(score = newCurrentPlayer.score + 1).copyWithNewShotsFired(shotsFired = newShotsFired)
             
             // Player1 saved as player1 (same for p2)
-            val lastState = if(state.currentPlayer == state.player1) 
+            val lastState = if(currentPlayer == state.player1) 
                     state.copy(player1 = newCurrentPlayerUpdated, player2 = nextPlayerWithGridUpdated, nbOfGames = state.nbOfGames + 1)
                 else state.copy(player1 = nextPlayerWithGridUpdated, player2 = newCurrentPlayerUpdated, nbOfGames = state.nbOfGames + 1)
 
@@ -159,7 +173,7 @@ object TestAI extends App {
         }
 
         // Prepare for next turn
-        if(newCurrentPlayer == state.player1) 
+        if(currentPlayer == state.player1) 
             battleLoop(state.copy(player1 = newCurrentPlayer, player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
         else 
             battleLoop(state.copy(player1 = nextPlayerWithGridUpdated, player2 = newCurrentPlayer, currentPlayer = nextPlayerWithGridUpdated))
@@ -202,6 +216,7 @@ object TestAI extends App {
         
         if(remainingGames%coeff == 0) {
             output.clear()
+            output.display(state.player1.name + " VS " + state.player2.name)
             output.display((NB_OF_GAMES_TO_PLAY - state.nbOfGames) + " remaining game(s) to play.")
             output.display("Progress: ")
             output.display(s"""$GREEN""" + strPlayedMod100 + strRemainingMod100 + s"""$RESET""")

@@ -8,7 +8,7 @@ object BattleSchipGame extends App {
         "Human vs Human",
         "Human vs AI (low)",
         "Human vs AI (medium)",
-        //"Human vs AI (hard)",
+        "Human vs AI (hard)",
     )
 
     val SHIPS = Array(
@@ -74,8 +74,8 @@ object BattleSchipGame extends App {
                 }
                 val lastState = gameLoop(state)
             }
-            // Human VS AI (low)
-            case 1|2 => {
+            // Human VS AI
+            case 1|2|3 => {
                 // Enter player name
                 output.clear()
                 output.display("Player 1 name:")
@@ -85,6 +85,7 @@ object BattleSchipGame extends App {
                 val p2: Player = gameType match {
                     case 1 => new AILow()
                     case 2 => new AIMedium()
+                    case 3 => new AIHard()
                 }
 
                 val beginner = (new Random).nextInt(2)
@@ -219,7 +220,7 @@ object BattleSchipGame extends App {
             scala.io.StdIn.readLine()
             output.clear()    
         }
-        if(newCurrentPlayer == state.player1) 
+        if(currentPlayer == state.player1) 
             battleLoop(state.copy(player1 = newCurrentPlayer, player2 = nextPlayerWithGridUpdated, currentPlayer = nextPlayerWithGridUpdated))
         else 
             battleLoop(state.copy(player1 = nextPlayerWithGridUpdated, player2 = newCurrentPlayer, currentPlayer = nextPlayerWithGridUpdated))
