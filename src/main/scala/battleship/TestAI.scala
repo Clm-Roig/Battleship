@@ -19,7 +19,7 @@ object TestAI extends App {
         new Ship("Destroyer","D",2)
     )
 
-    val NB_OF_GAMES_TO_PLAY = 10000
+    val NB_OF_GAMES_TO_PLAY = 1000
     val output = ConsoleOutput
 
     start()
@@ -56,11 +56,37 @@ object TestAI extends App {
             }
             // AI(low) vs AI (hard)
             case 1 => {
-                output.displayError("Game type not implementend yet.")
+                output.clear()
+                val beginner = (new Random).nextInt(2)
+                // Place ships
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AILow())   
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())   
+                
+                // Launch the battle
+                val state = if (beginner == 0) {
+                    new GameState(player1, player2, beginner)
+                } else {
+                    new GameState(player1, player2, beginner)
+                }
+                val lastState = gameLoop(state)
+                outputFinalResult(lastState)            
             }
             // AI(medium) vs AI (hard)
             case 2 => {
-                output.displayError("Game type not implementend yet.")
+                output.clear()
+                val beginner = (new Random).nextInt(2)
+                // Place ships
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIMedium())   
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, new AIHard())   
+                
+                // Launch the battle
+                val state = if (beginner == 0) {
+                    new GameState(player1, player2, beginner)
+                } else {
+                    new GameState(player1, player2, beginner)
+                }
+                val lastState = gameLoop(state)
+                outputFinalResult(lastState) 
             }
             case _ => {
                 output.displayError("Unkown game type.")

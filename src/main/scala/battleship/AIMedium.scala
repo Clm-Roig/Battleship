@@ -1,5 +1,6 @@
 package battleship
 import scala.util.Random
+import scala.annotation.tailrec
 
 case class AIMedium(name: String = "AI medium", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
@@ -13,8 +14,11 @@ case class AIMedium(name: String = "AI medium", myGrid: Grid = new Grid(), score
     /**
         Ask to shoot (random shoot).
     */
-    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {     
-        def askForShootCoordinates_rec(x: Int, y: Int, alreadyShot: Boolean): (Int,Int) = {
+    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = { 
+
+        // Return only coordinates where the AI didn't shot before.
+        @tailrec    
+        def getCoordsNeverShot_rec(x: Int, y: Int, alreadyShot: Boolean): (Int,Int) = {
             if(!alreadyShot) (x,y)
             else {
                 val newX = (new Random()).nextInt(this.myGrid.size)
@@ -22,10 +26,10 @@ case class AIMedium(name: String = "AI medium", myGrid: Grid = new Grid(), score
                 val newAlreadyShot = this.shotsFired.exists(shot => {
                     (shot._1 == newX) && (shot._2 == newY)
                 })
-                askForShootCoordinates_rec(newX, newY, newAlreadyShot)
+                getCoordsNeverShot_rec(newX, newY, newAlreadyShot)
             }
         }
-        askForShootCoordinates_rec(-1,-1,true)        
+        getCoordsNeverShot_rec(-1,-1,true)        
     }
 
     /**
