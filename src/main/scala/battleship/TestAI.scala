@@ -72,13 +72,13 @@ object TestAI extends App {
     @tailrec
     def gameLoop(state: GameState): GameState = {
         if(state.nbOfGames != 0) {
-            if(state.nbOfGames < NB_OF_GAMES_TO_PLAY) {                
+            if(state.nbOfGames < NB_OF_GAMES_TO_PLAY) {  
                 val p1 = state.player1.copyWithNewGrid(myGrid = new Grid()) 
                 val p2 = state.player2.copyWithNewGrid(myGrid = new Grid()) 
 
                 // Place ships
-                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
-                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1).emptyShotsFired() 
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2).emptyShotsFired()    
 
                 // Launch the battle
                 val newState = if (state.playerWhoBegins == 0) {

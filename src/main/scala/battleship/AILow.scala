@@ -8,6 +8,7 @@ case class AILow(name: String = "AI low", myGrid: Grid = new Grid(), score: Int 
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)
     override def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player = this.copy(shotsFired = shotsFired)
+    override def emptyShotsFired: Player = this.copy(shotsFired = Set())
 
     /**
         Ask to shoot (random shoot).

@@ -132,14 +132,14 @@ object BattleSchipGame extends App {
 
                 // TODO : refactor all this part (see end of start() method)
                 // Place ships
-                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1)
+                val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1).emptyShotsFired() 
                 output.clear()
                 output.display(player1.myGrid.toStringToSelf())
                 output.display("Press any key to let " + p2.name + " place his ships.")
                 scala.io.StdIn.readLine()
                 output.clear()
 
-                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
+                val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2).emptyShotsFired() 
                 output.clear()
                 output.display(player2.myGrid.toStringToSelf())
                 output.display("Press any key to start the battle.")

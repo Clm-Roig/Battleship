@@ -10,6 +10,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)
     override def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player = this.copy(shotsFired = shotsFired)
+    override def emptyShotsFired: Player = this.copy(shotsFired = Set())
 
     /**
         Ask the human player to shoot by entering the coordinates desired.

@@ -8,14 +8,24 @@ case class AIMedium(name: String = "AI medium", myGrid: Grid = new Grid(), score
     override def copyWithNewGrid(myGrid: Grid): Player = this.copy(myGrid = myGrid)
     override def copyWithNewScore(score: Int): Player = this.copy(score = score)
     override def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player = this.copy(shotsFired = shotsFired)
+    override def emptyShotsFired: Player = this.copy(shotsFired = Set())
 
     /**
         Ask to shoot (random shoot).
     */
     override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {     
-        val x = (new Random).nextInt(this.myGrid.size)
-        val y = (new Random).nextInt(this.myGrid.size)
-        return (x,y)
+        def askForShootCoordinates_rec(x: Int, y: Int, alreadyShot: Boolean): (Int,Int) = {
+            if(!alreadyShot) (x,y)
+            else {
+                val newX = (new Random()).nextInt(this.myGrid.size)
+                val newY = (new Random()).nextInt(this.myGrid.size)
+                val newAlreadyShot = this.shotsFired.exists(shot => {
+                    (shot._1 == newX) && (shot._2 == newY)
+                })
+                askForShootCoordinates_rec(newX, newY, newAlreadyShot)
+            }
+        }
+        askForShootCoordinates_rec(-1,-1,true)        
     }
 
     /**

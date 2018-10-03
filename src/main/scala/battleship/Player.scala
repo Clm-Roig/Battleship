@@ -13,6 +13,8 @@ trait Player {
     def copyWithNewGrid(myGrid: Grid): Player
     def copyWithNewScore(score: Int): Player
     def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player
+    
+    def emptyShotsFired(): Player
 
     /**
         Ask the player to enter coordinate for a shoot.
