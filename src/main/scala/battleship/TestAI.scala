@@ -95,6 +95,7 @@ object TestAI extends App {
                 val lastState2 = gameLoop(new GameState(low2, hard1, beginner2))
                 val lastState3 = gameLoop(new GameState(hard2, medium2, beginner3))
 
+                output.clear()
                 outputFinalResult(lastState1) 
                 output.display("")
                 outputFinalResult(lastState2) 
