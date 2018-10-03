@@ -18,7 +18,7 @@ object TestAI extends App {
         new Ship("Destroyer","D",2)
     )
 
-    val NB_OF_GAMES_TO_PLAY = 1000
+    val NB_OF_GAMES_TO_PLAY = 10000
     val output = ConsoleOutput
 
     start()
@@ -166,15 +166,17 @@ object TestAI extends App {
         Display a progress bar (10% by 10%) considering NB_OF_GAMES_TO_PLAY.
     */
     def outputNbOfGamesProgress(state: GameState): Unit = {
-        val remainingGames = NB_OF_GAMES_TO_PLAY - state.nbOfGames
+        val segmentsNb = 50
+        val coeff = NB_OF_GAMES_TO_PLAY / segmentsNb
 
-        val strPlayedMod100: String = "▉" * (state.nbOfGames / 50)
-        val strRemainingMod100: String = "░" * (remainingGames / 50)
+        val remainingGames = NB_OF_GAMES_TO_PLAY - state.nbOfGames
+        val strPlayedMod100: String = "▉" * (state.nbOfGames / coeff)
+        val strRemainingMod100: String = "░" * (segmentsNb - strPlayedMod100.length)
         
-        if(remainingGames%50 == 0) {
+        if(remainingGames%coeff == 0) {
             output.clear()
-            output.display("Remaining number of games to play: " + (NB_OF_GAMES_TO_PLAY - state.nbOfGames))
-            output.display("Games progress: ")
+            output.display((NB_OF_GAMES_TO_PLAY - state.nbOfGames) + " remaining game(s) to play.")
+            output.display("Progress: ")
             output.display(strPlayedMod100 + strRemainingMod100)
         }
     }
