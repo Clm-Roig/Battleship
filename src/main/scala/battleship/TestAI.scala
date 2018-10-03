@@ -18,7 +18,7 @@ object TestAI extends App {
         new Ship("Destroyer","D",2)
     )
 
-    val NB_OF_GAMES_TO_PLAY = 100
+    val NB_OF_GAMES_TO_PLAY = 1000
     val output = ConsoleOutput
 
     start()
@@ -51,8 +51,7 @@ object TestAI extends App {
                     new GameState(player1, player2, beginner)
                 }
                 val lastState = gameLoop(state)
-                output.clear()
-                printFinalResult(lastState)
+                outputFinalResult(lastState)
             }
             // AI(low) vs AI (hard)
             case 1 => {
@@ -71,8 +70,9 @@ object TestAI extends App {
     // Game loop (play another game ?)
     @tailrec
     def gameLoop(state: GameState): GameState = {
+        outputNbOfGamesProgress(state)
         if(state.nbOfGames != 0) {
-            if(state.nbOfGames < NB_OF_GAMES_TO_PLAY) {  
+            if(state.nbOfGames < NB_OF_GAMES_TO_PLAY) {
                 val p1 = state.player1.copyWithNewGrid(myGrid = new Grid()) 
                 val p2 = state.player2.copyWithNewGrid(myGrid = new Grid()) 
 
@@ -151,12 +151,32 @@ object TestAI extends App {
         }        
     }
 
-    def printFinalResult(state: GameState): Unit = {
+    /**
+        Display the score of state players.
+    */
+    def outputFinalResult(state: GameState): Unit = {
         output.display(state.nbOfGames + " game(s) played.")
         output.display("===== SCORE =====\n" 
             + state.player1.name + ": " + state.player1.score 
             + "\n" + state.player2.name + ": " + state.player2.score 
         )   
+    }
+
+    /**
+        Display a progress bar (10% by 10%) considering NB_OF_GAMES_TO_PLAY.
+    */
+    def outputNbOfGamesProgress(state: GameState): Unit = {
+        val remainingGames = NB_OF_GAMES_TO_PLAY - state.nbOfGames
+
+        val strPlayedMod100: String = "▉" * (state.nbOfGames / 50)
+        val strRemainingMod100: String = "░" * (remainingGames / 50)
+        
+        if(remainingGames%50 == 0) {
+            output.clear()
+            output.display("Remaining number of games to play: " + (NB_OF_GAMES_TO_PLAY - state.nbOfGames))
+            output.display("Games progress: ")
+            output.display(strPlayedMod100 + strRemainingMod100)
+        }
     }
 
     /**
