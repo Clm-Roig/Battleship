@@ -1,7 +1,7 @@
 package battleship
 import scala.util.Random
 import scala.annotation.tailrec
-import Console.{GREEN, RESET}
+import Console.{CYAN, GREEN, RED, RESET, WHITE}
 import java.io.{BufferedWriter, File, FileWriter}
 
 
@@ -34,9 +34,17 @@ object TestAI extends App {
 
         // Init
         output.clear()
-        output.display("=======================================")
-        output.display("========= BATTLESHIP: Test AI =========")
-        output.display("=======================================\n")
+        output.display(s"""
+     $WHITE                                   )___(
+                                  ______/__/_
+                         ___     /===========|      
+        ____     =======[|||]___/____________|_    _/_
+        \\   \\_____[||]__/______________________\\__[||]___
+         \\                                               |
+          \\       BATTLESHIP - Clément Roig - IG5        /
+        $CYAN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$RESET
+                  $RED====== AIs Test Program =======$RESET
+        """ + "\n")
         val gameType = askForGameType()
 
         gameType match {

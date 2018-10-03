@@ -1,6 +1,7 @@
 package battleship
 import scala.util.Random
 import scala.annotation.tailrec
+import Console.{WHITE, CYAN, RESET}
 
 object BattleShipGame extends App {
     // ===== CONST
@@ -30,9 +31,16 @@ object BattleShipGame extends App {
 
         // Init
         output.clear()
-        output.display("====================")
-        output.display("==== BATTLESHIP ====")
-        output.display("====================")
+        output.display(s"""
+     $WHITE                                   )___(
+                                  ______/__/_
+                         ___     /===========|      
+        ____     =======[|||]___/____________|_    _/_
+        \\   \\_____[||]__/______________________\\__[||]___
+         \\                                               |
+          \\       BATTLESHIP - Clément Roig - IG5        /
+        $CYAN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$RESET
+        """ + "\n")
         val gameType = askForGameType()
 
         gameType match {
