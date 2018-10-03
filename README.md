@@ -2,9 +2,9 @@
 <p align="center"><img alt="Battleship" src="https://cdn.pixabay.com/photo/2010/12/06/23/warships-1017_960_720.jpg" width=400></p>
 I developed this game during my 5th year at Polytech Montpellier, in CS & Management. It build with **Scala**, **SBT** and uses **ScalaTest** and **assembly** library. I tried as much as possible to maintain a code RT-friendly, with pure functions in order to test it easily. 
 
-:warning:The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (to test) but it doesn't work on Windows.
+:warning: The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (to test) but it doesn't work on Windows.
 
-## How to? 
+## How to? 
 ### With SBT 
 Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
 
