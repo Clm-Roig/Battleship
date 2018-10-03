@@ -48,10 +48,10 @@ object BattleShipGame extends App {
             case 0 => {
                 // Enter players name
                 output.clear()
-                output.display("Player 1 name:")
+                output.display("Enter Player 1 name:")
                 val p1Name = scala.io.StdIn.readLine()
                 val p1 = new Human(p1Name)
-                output.display("Player 2 name:")
+                output.display("Enter Player 2 name:")
                 val p2Name = scala.io.StdIn.readLine()
                 val p2 = new Human(p2Name)
 
@@ -86,7 +86,7 @@ object BattleShipGame extends App {
             case 1|2|3 => {
                 // Enter player name
                 output.clear()
-                output.display("Player 1 name:")
+                output.display("Enter Player 1 name:")
                 val p1Name = scala.io.StdIn.readLine()
                 val p1 = new Human(p1Name)
 
@@ -118,8 +118,6 @@ object BattleShipGame extends App {
                     new GameState(player1, player2, beginner)
                 }
                 val lastState = gameLoop(state)
-                output.clear()
-                printFinalResult(lastState)
             }
             case _ => {
                 output.displayError("Unkown game type.")
@@ -133,6 +131,7 @@ object BattleShipGame extends App {
         if(state.nbOfGames != 0) {
             if(this.askForAnotherGame()) {
                 output.clear()
+                printFinalResult(state)
                 
                 val p1 = state.player1.copyWithNewGrid(myGrid = new Grid()) 
                 val p2 = state.player2.copyWithNewGrid(myGrid = new Grid()) 
@@ -164,7 +163,10 @@ object BattleShipGame extends App {
 
                 gameLoop(battleLoop(newState))
             }
-            else state
+            else {
+                printFinalResult(state)
+                state
+            }
         } else {
             // launch the first game
             gameLoop(battleLoop(state))
@@ -176,13 +178,16 @@ object BattleShipGame extends App {
     def battleLoop(state: GameState): GameState = {
         val nextPlayer = if(state.currentPlayer == state.player1) state.player2 else state.player1
         val currentPlayer = state.currentPlayer
-
-        // Shoot
         output.display("It's " + currentPlayer.name + "'s turn!")
+
+        // Display grids
         currentPlayer.output.get.display(currentPlayer.myGrid.toStringToSelf())
         currentPlayer.output.get.display(nextPlayer.myGrid.toStringToOpponent())
+
+        // Shoot
         val coords = currentPlayer.askForShootCoordinates()
         output.display(currentPlayer.name + " shoots at (" + coords._1 + "," + (coords._2 + 'A').toChar +")...")
+
         val shotResult = nextPlayer.myGrid.shootHere(coords._1, coords._2)
         val ship: Option[Ship] = shotResult._1
         val shipName = ship.getOrElse("")
@@ -192,15 +197,16 @@ object BattleShipGame extends App {
         val lastShot: (Int,Int,String) = (coords._1, coords._2, shotState)
         val newShotsFired = currentPlayer.shotsFired + lastShot
 
+        // Result of Shot
         if(shotState == Grid.MISS) output.display("Missed!")
         if(shotState == Grid.HIT) output.display(shipName + " hit!")
         if(shotState == Grid.SUNK) output.display(shipName + " sunk!!")
         
-        // Update data by creating new objects 
+        // Update players by creating new objects 
         val nextPlayerWithGridUpdated = nextPlayer.copyWithNewGrid(myGrid = newGrid)
-        currentPlayer.output.get.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
-
         val newCurrentPlayer = currentPlayer.copyWithNewShotsFired(shotsFired = newShotsFired)
+
+        currentPlayer.output.get.display(nextPlayerWithGridUpdated.myGrid.toStringToOpponent())
 
         // Check if game is over
         if(nextPlayerWithGridUpdated.myGrid.areAllShipsSunk()) {
@@ -213,12 +219,6 @@ object BattleShipGame extends App {
             val lastState = if(state.currentPlayer == state.player1) 
                     state.copy(player1 = newCurrentPlayerUpdated, player2 = nextPlayerWithGridUpdated, nbOfGames = state.nbOfGames + 1)
                 else state.copy(player1 = nextPlayerWithGridUpdated, player2 = newCurrentPlayerUpdated, nbOfGames = state.nbOfGames + 1)
-
-            output.display(lastState.nbOfGames + " game(s) played.")
-            output.display("===== SCORE =====\n" 
-                + newCurrentPlayerUpdated.name + ": " + newCurrentPlayerUpdated.score 
-                + "\n" + nextPlayerWithGridUpdated.name + ": " + nextPlayerWithGridUpdated.score 
-            )
 
             return lastState
         }
@@ -273,7 +273,7 @@ object BattleShipGame extends App {
             }
         } catch {
             case e : StringIndexOutOfBoundsException => {
-                output.displayError("Enter y or n please.")
+                output.displayError("Enter y or n.")
                 askForAnotherGame()
             }
             case e : Throwable => {
@@ -287,11 +287,12 @@ object BattleShipGame extends App {
         Ask the user the game type he wants: 
     */
     def askForGameType(): Int = {
-        output.display("Choose your game type (integer only):")
+        output.display("Choose your game type (integer only) or type 'q' to quit:")
         GAME_TYPES.zipWithIndex.foreach{ 
             case(x, i) => output.display(i + ". " + x)
         }
         val valueTyped = scala.io.StdIn.readLine()
+        if(valueTyped == "q") sys.exit(0)
         try {
             val intTyped = Integer.parseInt(valueTyped)
             if(intTyped < 0 || intTyped >= this.GAME_TYPES.length) askForGameType()
