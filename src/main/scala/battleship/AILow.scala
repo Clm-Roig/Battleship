@@ -13,10 +13,10 @@ case class AILow(name: String = "AI Level Beginner", myGrid: Grid = new Grid(), 
     /**
         Ask to shoot (random shoot).
     */
-    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {     
+    override def askForShootCoordinates(): (Int,Int) = {     
         val x = (new Random).nextInt(this.myGrid.size)
         val y = (new Random).nextInt(this.myGrid.size)
-        return (x,y)
+        (x,y)
     }
 
     /**

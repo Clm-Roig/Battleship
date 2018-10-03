@@ -282,7 +282,8 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         var res = s"""$WHITE OPPONENT GRID"""
         res = res.concat(s"""$WHITE""" + "    Remaining Ships: " + this.ships.count(_.lifePoints > 0) + "/" + this.ships.length)
 
-        res = res.concat("""$WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
+        res = res.concat(s"""
+          $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
         """)
         this.positions.zipWithIndex.foreach {
@@ -294,7 +295,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 }}
             }
         }
-        res = res.concat("|\n")
+        res = res.concat("|\n" + s"""$RESET""")
         res
     }
 

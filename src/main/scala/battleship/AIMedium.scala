@@ -14,7 +14,7 @@ case class AIMedium(name: String = "AI Level Medium", myGrid: Grid = new Grid(),
     /**
         Ask to shoot (random shoot).
     */
-    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = { 
+    override def askForShootCoordinates(): (Int,Int) = { 
 
         // Return only coordinates where the AI didn't shot before.
         @tailrec    

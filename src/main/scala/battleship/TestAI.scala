@@ -149,7 +149,7 @@ object TestAI extends App {
         val currentPlayer = state.currentPlayer
 
         // Shoot
-        val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
+        val coords = currentPlayer.askForShootCoordinates()
         val shotResult = nextPlayer.myGrid.shootHere(coords._1, coords._2)
         val ship: Option[Ship] = shotResult._1
         val shipName = ship.getOrElse("")

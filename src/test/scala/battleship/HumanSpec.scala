@@ -20,7 +20,7 @@ class HumanSpec extends FunSuite {
     test("askForShootCoordinates(): common usage.") {
         val inputString = new MockConsoleInput(List("5", "A"))
         val human = new Human("Kévin", input = Some(inputString), output = Some(MockConsoleOutput)) 
-        val tuple = human.askForShootCoordinates(new Grid())
+        val tuple = human.askForShootCoordinates()
         assert(tuple._1 == 5)
         assert(tuple._2 == 0)
     }
@@ -28,7 +28,7 @@ class HumanSpec extends FunSuite {
     test("askForShootCoordinates(): incorrect x and y.") {
         val inputString = new MockConsoleInput(List("23","4","z","C"))
         val human = new Human("Kévin", input = Some(inputString), output = Some(MockConsoleOutput)) 
-        val tuple = human.askForShootCoordinates(new Grid())
+        val tuple = human.askForShootCoordinates()
         assert(tuple._1 == 4)
         assert(tuple._2 == 2)
     }

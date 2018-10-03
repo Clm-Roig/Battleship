@@ -2,7 +2,7 @@ package battleship
 import scala.util.Random
 import scala.annotation.tailrec
 
-object BattleSchipGame extends App {
+object BattleShipGame extends App {
     // ===== CONST
     val GAME_TYPES = Array(
         "Human vs Human",
@@ -99,7 +99,8 @@ object BattleSchipGame extends App {
                 output.clear()
 
                 val player2: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p2)   
-                
+                output.clear()
+
                 // Launch the battle
                 val state = if (beginner == 0) {
                     output.display(player1.name + " starts.") 
@@ -171,8 +172,8 @@ object BattleSchipGame extends App {
         // Shoot
         output.display("It's " + currentPlayer.name + "'s turn!")
         currentPlayer.output.get.display(currentPlayer.myGrid.toStringToSelf())
-
-        val coords = currentPlayer.askForShootCoordinates(nextPlayer.myGrid)
+        currentPlayer.output.get.display(nextPlayer.myGrid.toStringToOpponent())
+        val coords = currentPlayer.askForShootCoordinates()
         output.display(currentPlayer.name + " shoots at (" + coords._1 + "," + (coords._2 + 'A').toChar +")...")
         val shotResult = nextPlayer.myGrid.shootHere(coords._1, coords._2)
         val ship: Option[Ship] = shotResult._1
@@ -235,7 +236,7 @@ object BattleSchipGame extends App {
         else {
             val ship = ships.last
             output.clear()
-            output.display(p.name + " place the ship: " + ship.toString)
+            output.display(p.name + " places the ship: " + ship.toString)
             val newPlayer = p.askToPlaceAShip(ship)
             getNewPlayerWithShipsPlaced(ships.take(ships.length - 1), newPlayer)
         }        

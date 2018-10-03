@@ -13,16 +13,16 @@ trait Player {
     def copyWithNewGrid(myGrid: Grid): Player
     def copyWithNewScore(score: Int): Player
     def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player
-    
+
+    // Reset the shotsFired property    
     def emptyShotsFired(): Player
 
     /**
         Ask the player to enter coordinate for a shoot.
-        @param opponentGrid Grid of the opponent
-
+        
         @return (Int,Int) x coordinate, y coordinate
     */
-    def askForShootCoordinates(opponentGrid: Grid): (Int,Int)
+    def askForShootCoordinates(): (Int,Int)
 
     /**
         Ask the player to place a Ship. 

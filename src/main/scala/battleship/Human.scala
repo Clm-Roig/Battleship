@@ -15,8 +15,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
     /**
         Ask the human player to shoot by entering the coordinates desired.
     */
-    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {        
-        output.get.display(opponentGrid.toStringToOpponent())
+    override def askForShootCoordinates(): (Int,Int) = {        
         // x coordinate
         output.get.display("Enter the x coordinate (between 0 and " + (this.myGrid.size - 1) + ").")
         val x = this.askToEnterXCoordinate()

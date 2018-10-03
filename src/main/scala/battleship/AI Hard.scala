@@ -14,7 +14,7 @@ case class AIHard(name: String = "AI Level Hard", myGrid: Grid = new Grid(), sco
     /**
         Ask to shoot (random shoot).
     */
-    override def askForShootCoordinates(opponentGrid: Grid): (Int,Int) = {   
+    override def askForShootCoordinates(): (Int,Int) = {   
         // Return only coordinates where the AI didn't shot before.  
         @tailrec
         def getCoordsNeverShot_rec(x: Int, y: Int, alreadyShot: Boolean): (Int,Int) = {
