@@ -1,5 +1,6 @@
 package battleship
-import Console.{WHITE_B, BLACK, WHITE, RED, RESET, CYAN, UNDERLINED}
+import Console.{WHITE_B, BLACK, GREEN, WHITE, RED, RESET, CYAN, UNDERLINED}
+import scala.annotation.tailrec
 
 /**
     The square grid used for the Battleship, where the players put their ships. 
@@ -230,11 +231,13 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         String representation to be seen by the owner of the grid.
     */
     def toStringToSelf(): String = {
-        var res = s"""$WHITE
-        MY GRID:
+        var res = s"""$WHITE MY GRID"""
+        res = res.concat(s"""$WHITE""" + "    Remaining Ships: " + this.ships.count(_.lifePoints > 0) + "/" + this.ships.length)
+
+        res = res.concat(s"""
           $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
-        """
+        """)
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
                 if(i != 0) res = res.concat("|\n        "+i+"   ")
@@ -275,11 +278,14 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
         String representation to be seen by the opponent of the grid.
     */
     def toStringToOpponent(): String = {
-        var res = s"""$WHITE
-        OPPONENT GRID:
+        // Remaining ships
+        var res = s"""$WHITE OPPONENT GRID"""
+        res = res.concat(s"""$WHITE""" + "    Remaining Ships: " + this.ships.count(_.lifePoints > 0) + "/" + this.ships.length)
+
+        res = res.concat(s"""
           $WHITE_B$BLACK"""+"y"+s"""$RESET$WHITE   A   B   C   D   E   F   G   H   I   J  
         $WHITE_B$BLACK"""+"x"+s"""$RESET$WHITE    _______________________________________
-        """
+        """)
         this.positions.zipWithIndex.foreach {
             case(x,i) => {
                 if(i != 0) res = res.concat("|\n        "+i+"   ")
@@ -289,7 +295,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 }}
             }
         }
-        res = res.concat("|\n")
+        res = res.concat("|\n" + s"""$RESET""")
         res
     }
 

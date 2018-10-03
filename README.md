@@ -1,2 +1,26 @@
-# battleShip
-Battleship using Scala
+# Battleship - A simple battleship game in Scala :ship:
+<p align="center"><img alt="Battleship" src="https://cdn.pixabay.com/photo/2010/12/06/23/warships-1017_960_720.jpg" width=400></p>
+I developed this game during my 5th year at Polytech Montpellier, in CS & Management. It build with **Scala**, **SBT** and uses **ScalaTest** and **assembly** library. I tried as much as possible to maintain a code RT-friendly, with pure functions in order to test it easily. 
+
+:warning:The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (to test) but it doesn't work on Windows.
+
+## How to? 
+### With SBT 
+Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
+
+### .jar file
+You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below)
+
+## Main classes
+### BattleShipGame :man: :crossed_swords: :woman: :man: :crossed_swords: :robot:
+Player a game versus a friend or an AI (low, medium and hard).
+
+### TestAI :ballot_box_with_check:
+Launch multiple games (default: 100) between the 3 AI and get the final result printed or written in a CSV file. For example, I got the following results with 20 000 games played between each AI (low VS medium, low VS hard, medium VS hard): 
+
+| AI Name           | Score | AI Name2        | Score2 |
+|-------------------|-------|-----------------|--------|
+| AI Level Beginner | 5     | AI Level Medium | 19995  |
+| AI Level Beginner | 0     | AI Level Hard   | 20000  |
+| AI Level Medium   | 274   | AI Level Hard   | 19726  |
+
