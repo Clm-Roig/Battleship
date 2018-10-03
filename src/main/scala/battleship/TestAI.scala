@@ -1,6 +1,7 @@
 package battleship
 import scala.util.Random
 import scala.annotation.tailrec
+import Console.{GREEN, RESET}
 
 object TestAI extends App {
     // ===== CONST
@@ -163,7 +164,7 @@ object TestAI extends App {
     }
 
     /**
-        Display a progress bar (10% by 10%) considering NB_OF_GAMES_TO_PLAY.
+        Display a progress bar considering NB_OF_GAMES_TO_PLAY.
     */
     def outputNbOfGamesProgress(state: GameState): Unit = {
         val segmentsNb = 50
@@ -177,7 +178,7 @@ object TestAI extends App {
             output.clear()
             output.display((NB_OF_GAMES_TO_PLAY - state.nbOfGames) + " remaining game(s) to play.")
             output.display("Progress: ")
-            output.display(strPlayedMod100 + strRemainingMod100)
+            output.display(s"""$GREEN""" + strPlayedMod100 + strRemainingMod100 + s"""$RESET""")
         }
     }
 

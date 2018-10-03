@@ -8,15 +8,14 @@ object BattleSchipGame extends App {
         "Human vs Human",
         "Human vs AI (low)",
         "Human vs AI (medium)",
-        "Human vs AI (hard)",
+        //"Human vs AI (hard)",
     )
 
     val SHIPS = Array(
         new Ship("Carrier","C",5),
-        /*
         new Ship("Battleship","B",4),
         new Ship("Cruiser","c",3),
-        new Ship("Submarine","S",3),*/
+        new Ship("Submarine","S",3),
         new Ship("Destroyer","D",2)
     )
 
@@ -76,13 +75,17 @@ object BattleSchipGame extends App {
                 val lastState = gameLoop(state)
             }
             // Human VS AI (low)
-            case 1 => {
+            case 1|2 => {
                 // Enter player name
                 output.clear()
                 output.display("Player 1 name:")
                 val p1Name = scala.io.StdIn.readLine()
                 val p1 = new Human(p1Name)
-                val p2 = new AILow()
+
+                val p2: Player = gameType match {
+                    case 1 => new AILow()
+                    case 2 => new AIMedium()
+                }
 
                 val beginner = (new Random).nextInt(2)
 
@@ -107,12 +110,6 @@ object BattleSchipGame extends App {
                 val lastState = gameLoop(state)
                 output.clear()
                 printFinalResult(lastState)
-            }
-            case 2 => {
-                output.displayError("Game type not implementend yet.")
-            }
-            case 3 => {
-                output.displayError("Game type not implementend yet.")
             }
             case _ => {
                 output.displayError("Unkown game type.")
