@@ -1,6 +1,11 @@
 package battleship
 import scala.util.Random
 
+/**
+    AI Level Low. 
+    placeShip => randomness
+    shoot => randomness (can be somewhere it shots before)
+*/
 case class AILow(name: String = "AI Level Beginner", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
     shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
@@ -20,7 +25,7 @@ case class AILow(name: String = "AI Level Beginner", myGrid: Grid = new Grid(), 
     }
 
     /**
-        Ask to place a ship (random until ok)
+        Ask to place a ship (random until ok).
     */
     override def askToPlaceAShip(ship: Ship): Player = {
         val x = (new Random).nextInt(this.myGrid.size)

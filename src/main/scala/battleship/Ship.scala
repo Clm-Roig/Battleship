@@ -27,6 +27,7 @@ case class Ship (name: String, symbol: String, size: Int, lifePoints: Int) {
         this.copy(lifePoints = newLifePoints)
     }
 
+    // Ship toString representation: Name[size]
     override def toString: String = {
         this.name + "[" + this.size + "]"
     }

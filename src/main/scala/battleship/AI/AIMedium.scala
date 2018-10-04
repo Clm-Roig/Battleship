@@ -2,6 +2,11 @@ package battleship
 import scala.util.Random
 import scala.annotation.tailrec
 
+/**
+    AI Level Medium. 
+    placeShip => randomness
+    shoot => randomness (can't be somewhere it shots before)
+*/
 case class AIMedium(name: String = "AI Level Medium", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
     shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
@@ -12,7 +17,7 @@ case class AIMedium(name: String = "AI Level Medium", myGrid: Grid = new Grid(),
     override def emptyShotsFired: Player = this.copy(shotsFired = Set())
 
     /**
-        Ask to shoot (random shoot).
+        Ask to shoot (random shoot but never somewhere it shot before).
     */
     override def askForShootCoordinates(): (Int,Int) = { 
 
@@ -33,7 +38,7 @@ case class AIMedium(name: String = "AI Level Medium", myGrid: Grid = new Grid(),
     }
 
     /**
-        Ask to place a ship (random until ok)
+        Ask to place a ship (random until ok).
     */
     override def askToPlaceAShip(ship: Ship): Player = {
         val x = (new Random).nextInt(this.myGrid.size)

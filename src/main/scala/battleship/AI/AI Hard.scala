@@ -2,6 +2,13 @@ package battleship
 import scala.util.Random
 import scala.annotation.tailrec
 
+/**
+    AI Level Hard. 
+    placeShip => randomness
+    shoot =>    if the AI hit a ship before, try to shoot around it to sank it.
+                else shoot randomly.
+                In any case, never shoot somewhere it shot before.
+*/
 case class AIHard(name: String = "AI Level Hard", myGrid: Grid = new Grid(), score: Int = 0,
     input: Option[Input] = None, output: Option[Output] = Some(MockConsoleOutput), 
     shotsFired: Set[(Int,Int,String)] = Set()) extends Player {
@@ -12,7 +19,7 @@ case class AIHard(name: String = "AI Level Hard", myGrid: Grid = new Grid(), sco
     override def emptyShotsFired: Player = this.copy(shotsFired = Set())
 
     /**
-        Ask to shoot (random shoot).
+        Ask to shoot. Shot around a cell already hit if possible, else randomness.
     */
     override def askForShootCoordinates(): (Int,Int) = {   
         // Return only coordinates where the AI didn't shot before.  
@@ -70,7 +77,7 @@ case class AIHard(name: String = "AI Level Hard", myGrid: Grid = new Grid(), sco
     }
 
     /**
-        Ask to place a ship (random until ok)
+        Ask to place a ship (random until ok).
     */
     override def askToPlaceAShip(ship: Ship): Player = {
         val x = (new Random).nextInt(this.myGrid.size)

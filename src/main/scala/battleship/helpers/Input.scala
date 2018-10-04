@@ -11,7 +11,7 @@ object ConsoleInput extends Input {
     }
 }
 
-// Mock input object used for tests (TODO: self updating, breaks RT!)
+// Mock input object used for tests (TODO: self updating, breaks RT!!!)
 case class MockConsoleInput(var msg: List[String]) extends Input {
     override def askString(): String = {
         val res = this.msg.head

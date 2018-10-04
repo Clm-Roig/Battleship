@@ -3,6 +3,9 @@ import scala.util.Random
 import scala.annotation.tailrec
 import Console.{WHITE, CYAN, RESET}
 
+/**
+    Main class used to play BattleShip (Human VS Human or Human VS AI).
+*/
 object BattleShipGame extends App {
     // ===== CONST
     val GAME_TYPES = Array(

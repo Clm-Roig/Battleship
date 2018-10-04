@@ -78,14 +78,14 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Return true if all the ships are sunk (i.e, lifePoints == 0) or if there is no ship at all.
+        Returns true if all the ships are sunk (i.e, lifePoints == 0) or if there is no ship at all.
     */
     def areAllShipsSunk(): Boolean = {
         this.ships.forall(s => s.isSunk())
     }
 
     /**
-        Return the cells passed through from the coordinate(x,y) according to the 
+        Returns the cells passed through from the coordinate(x,y) according to the 
         direction and the nbOfCells given. The initial cell is included in the result.
         @param x x coordinate of the initial cell
         @param y y coordinate of the initial cell
@@ -122,7 +122,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Return the coordinates of a next cell according to an initial cell and a direction.
+        Returns the coordinates of a next cell according to an initial cell and a direction.
         The next cell can be out of the grid.
         @param x initial cell x position
         @param y initial cell y position
@@ -145,7 +145,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Shoot at the position given. Return a Grid updated, the state of the shot (hit, miss or sunk) 
+        Shoot at the position given. Returns a Grid updated, the state of the shot (hit, miss or sunk) 
         and the potentially hit or sunk ship.
         @param x x coordinate of the shoot (no check performed to see if the value is valid.
             If x is out of grid, the shot will miss.) 
@@ -176,7 +176,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
                 // Sunk ?
                 val state = if(ship.lifePoints == 0) Grid.SUNK else Grid.HIT
 
-                // Return objects
+                // Returns objects
                 val grid = this.copy(positions = newPositions, ships = newShips)
                 (Some(ship), state, grid)            
             }
@@ -190,7 +190,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
      /**
-        Return a new positions Array with all the cells given change to symbol.
+        Returns a new positions Array with all the cells given change to symbol.
         @param positions Array(Array[String]) current positions Array
         @param cellsToChange Array[(Int,Int)] cells to modify
         @param symbol String the symbol to use for modification
@@ -252,7 +252,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Return the case element formatted according to the symbol given. The 
+        Returns the case element formatted according to the symbol given. The 
         case element is intended to be seen by the owner of the grid (first letter
         of boat displayed for example).        
         @example 
@@ -300,7 +300,7 @@ case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]],
     }
 
     /**
-        Return the case element formatted according to the symbol given. The 
+        Returns the case element formatted according to the symbol given. The 
         case element is intended to be seen by the opponent of the grid (first letter
         of boat displated for example).        
         @example 
