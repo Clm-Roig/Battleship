@@ -1,5 +1,9 @@
 package battleship
 
+/**
+    A Player is something which can play at BattleShip. It should be able to place a ship
+    and to return coordinates to shot.
+*/
 trait Player {
     val myGrid: Grid
     val name: String
@@ -9,7 +13,7 @@ trait Player {
     val shotsFired: Set[(Int,Int, String)]
 
     // Can't find a better solution since you cant copy() a trait or an abstract class...
-    // TODO : find something else... Library Shapeless ?
+    // TODO : find something else... Library Shapeless ? https://github.com/milessabin/shapeless
     def copyWithNewGrid(myGrid: Grid): Player
     def copyWithNewScore(score: Int): Player
     def copyWithNewShotsFired(shotsFired: Set[(Int,Int,String)]): Player

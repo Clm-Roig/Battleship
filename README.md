@@ -1,15 +1,16 @@
 # Battleship - A simple battleship game in Scala :ship:
 <p align="center"><img alt="Battleship" src="https://cdn.pixabay.com/photo/2010/12/06/23/warships-1017_960_720.jpg" width=400></p>
-I developed this game during my 5th year at Polytech Montpellier, in CS & Management. It build with **Scala**, **SBT** and uses **ScalaTest** and **assembly** library. I tried as much as possible to maintain a code RT-friendly, with pure functions in order to test it easily. 
 
-:warning: The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (to test) but it doesn't work on Windows.
+I developed this game during my 5th year at Polytech Montpellier, in CS & Management. Built with [Scala](https://www.scala-lang.org/) (v2.12.6), [SBT](https://www.scala-sbt.org/) and uses [ScalaTest](http://www.scalatest.org/). I tried as much as possible to maintain a [RT](https://en.wikipedia.org/wiki/Referential_transparency)-friendly code, with pure functions in order to test it easily. 
 
-## How to? 
+:warning: The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (need to be tested) but it doesn't work on Windows.
+
+## How to use it?
 ### With SBT 
 Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
 
 ### .jar file
-You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below)
+You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below).
 
 ## Main classes
 ### BattleShipGame :man: :crossed_swords: :woman: :man: :crossed_swords: :robot:
@@ -24,3 +25,5 @@ Launch multiple games (default: 100) between the 3 AI and get the final result p
 | AI Level Beginner | 0     | AI Level Hard   | 20000  |
 | AI Level Medium   | 274   | AI Level Hard   | 19726  |
 
+## Author
+<img src="https://fr.gravatar.com/userimage/96543241/c19533b15b0c4f4071bb389acb5d4d33.jpg?size=200" width=30 style=""><span><i>Clément ROIG</i></span>

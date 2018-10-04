@@ -78,7 +78,7 @@ class GridSpec extends fixture.FunSuite {
     }
 
     // ===== areAllShipsSunk() tests
-    test("areAllShipsSunk()") { f => 
+    test("areAllShipsSunk(): common usage.") { f => 
         assert(f.grid.areAllShipsSunk())
         val newGrid = f.grid.addShip(1,'B',f.ship,"S")
         assert(!newGrid.areAllShipsSunk())
@@ -171,9 +171,10 @@ class GridSpec extends fixture.FunSuite {
     }
 
     // ===== toStringToSelf() tests
-    test("toStringToSelf()") { f => 
+    test("toStringToSelf(): common usage.") { f => 
         val newGrid = f.grid.addShip(1,'B',f.ship,"S")
-        val newGrid2 = newGrid.addShip(5,'E',new Ship("Destroyer", "D_hit", 3), "E")
+        val newGrid2 = newGrid.addShip(5,'E',new Ship("Destroyer", "D", 3), "E")
         assert(newGrid2.toStringToSelf().contains("MY GRID"))
+        assert(newGrid2.toStringToSelf().contains("_D_"))
     }
 }

@@ -56,7 +56,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
     }
 
     /**
-        Return the x coordinate asked to the Human via Console prompt.
+        Returns the x coordinate asked to the Human via Console prompt.
     */
     def askToEnterXCoordinate(): Int = {
         val xTyped = input.get.askString()
@@ -76,7 +76,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
     }
 
     /**
-        Return the y coordinate asked to the Human via Console prompt.
+        Returns the y coordinate asked to the Human via Console prompt.
     */
     def askToEnterYCoordinate(): Char = {
         val yTyped = input.get.askString()
@@ -106,7 +106,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
     }
 
     /**
-        Return the direction asked to the Human via Console prompt.
+        Returns the direction asked to the Human via Console prompt.
     */
     def askToEnterDirection(): String = {
         val dirTyped = input.get.askString()

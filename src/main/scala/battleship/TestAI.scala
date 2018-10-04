@@ -4,7 +4,9 @@ import scala.annotation.tailrec
 import Console.{CYAN, GREEN, RED, RESET, WHITE}
 import java.io.{BufferedWriter, File, FileWriter}
 
-
+/**
+    Main class used to test the AIs.
+*/
 object TestAI extends App {
     // ===== CONST
     val GAME_TYPES = Array(
@@ -258,12 +260,15 @@ object TestAI extends App {
         val header = "AI Name;score;AI Name2;score2\n"
         val fileName = "ai_proof.csv"
         val scores = states.map( state => {
+            
             val (p1, p2) = (state.player1, state.player2)
-            // First AI print is the weakest one
+
+            // First AI printed is the weakest one
             if(p1.isInstanceOf[AILow]) p1.name + ";" + p1.score + ";" + p2.name + ";" + p2.score
             else if(p2.isInstanceOf[AIMedium]) p2.name + ";" + p2.score + ";" + p1.name + ";" + p1.score
             else if(p2.isInstanceOf[AILow]) p2.name + ";" + p2.score + ";" + p1.name + ";" + p1.score
-            else p1.name + ";" + p1.score + ";" + p2.name + ";" + p2.score            
+            else p1.name + ";" + p1.score + ";" + p2.name + ";" + p2.score  
+
         }).mkString("\n")
 
         // File writing
@@ -272,6 +277,6 @@ object TestAI extends App {
         bw.write(header.concat(scores))
         bw.close()  
 
-        output.display("Recap file ai_proof.csv written successfully!")      
+        output.display("Recap file " + fileName + " written successfully!")      
     }
 }
