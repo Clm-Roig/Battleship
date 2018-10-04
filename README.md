@@ -11,7 +11,7 @@ I developed this game during my 5th year at Polytech Montpellier, in CS & Manage
 Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
 
 ### .jar file
-You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below)
+You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below).
 
 ## Main classes
 ### BattleShipGame :man: :crossed_swords: :woman: :man: :crossed_swords: :robot:
