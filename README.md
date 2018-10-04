@@ -25,5 +25,5 @@ Launch multiple games (default: 100) between the 3 AI and get the final result p
 | AI Level Medium   | 274   | AI Level Hard   | 19726  |
 
 ## Author
-*Clément ROIG*
-<p align="center"><img src="https://fr.gravatar.com/userimage/96543241/c19533b15b0c4f4071bb389acb5d4d33.jpg?size=200" with=100></p>
+<img src="https://fr.gravatar.com/userimage/96543241/c19533b15b0c4f4071bb389acb5d4d33.jpg?size=200" width=30 style="">
+<p><i>Clément ROIG</i></p>
