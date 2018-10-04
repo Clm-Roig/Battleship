@@ -1,10 +1,12 @@
 # Battleship - A simple battleship game in Scala :ship:
 <p align="center"><img alt="Battleship" src="https://cdn.pixabay.com/photo/2010/12/06/23/warships-1017_960_720.jpg" width=400></p>
+
 I developed this game during my 5th year at Polytech Montpellier, in CS & Management. Built with [Scala](https://www.scala-lang.org/) (v2.12.6), [SBT](https://www.scala-sbt.org/) and uses [ScalaTest](http://www.scalatest.org/). I tried as much as possible to maintain a [RT](https://en.wikipedia.org/wiki/Referential_transparency)-friendly code, with pure functions in order to test it easily. 
 
-:warning:The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (to test) but it doesn't work on Windows.
+:warning: The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (need to be tested) but it doesn't work on Windows.
 
-## How to? 
+## How to use it?
+
 ### With SBT 
 Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
 
