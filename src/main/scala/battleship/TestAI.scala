@@ -4,10 +4,16 @@ import scala.annotation.tailrec
 import Console.{CYAN, GREEN, RED, RESET, WHITE}
 import java.io.{BufferedWriter, File, FileWriter}
 
+import com.typesafe.config.{ Config, ConfigFactory }
+
 /**
     Main class used to test the AIs.
 */
 object TestAI extends App {
+    // Get config var
+    val config = ConfigFactory.parseFile(new File("application.conf"))
+    val NB_OF_GAMES_TO_PLAY = config.getInt("nbOfGames")
+
     // ===== CONST
     val GAME_TYPES = Array(
         "AI(low) vs AI (medium)",
@@ -24,7 +30,6 @@ object TestAI extends App {
         new Ship("Destroyer","D",2)
     )
 
-    val NB_OF_GAMES_TO_PLAY = 100
     val output = ConsoleOutput
 
     start()
