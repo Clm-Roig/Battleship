@@ -129,8 +129,8 @@ object TestAI extends App {
         outputNbOfGamesProgress(state)
         if(state.nbOfGames != 0) {
             if(state.nbOfGames < NB_OF_GAMES_TO_PLAY) {
-                val p1 = state.player1.copyWithNewGrid(myGrid = new Grid()) 
-                val p2 = state.player2.copyWithNewGrid(myGrid = new Grid()) 
+                val p1 = state.player1.copyWithNewGrid(myGrid = new Grid())
+                val p2 = state.player2.copyWithNewGrid(myGrid = new Grid())
 
                 // Place ships
                 val player1: Player = this.getNewPlayerWithShipsPlaced(SHIPS, p1).emptyShotsFired() 

@@ -22,59 +22,73 @@ import scala.annotation.tailrec
         the cells of the grid, each cell can be water or ship (hit or not for both)
     @param output output class used to display messages
  */
-case class Grid (ships: Array[Ship], size: Int, positions: Array[Array[String]], output: Output = ConsoleOutput) {
+case class Grid (ships: Array[Ship] = Array(), size: Int = Grid.DEFAULT_SIZE, positions: Array[Array[String]], output: Output = ConsoleOutput) {
 
     // ===== Constructors
-    def this(size: Int) = {
+    def this(size: Int, output: Output) {
+        this(Array(), size, Array.ofDim[String](size, size).map(x => x.map(x => Grid.WATER)), output)
+    }
+    def this(size: Int) {
         this(Array(), size, Array.ofDim[String](size, size).map(x => x.map(x => Grid.WATER)))
     }
-
+    def this(output: Output) = this(Grid.DEFAULT_SIZE, output)
     def this() = this(Grid.DEFAULT_SIZE)
 
     // ===== Methods
     /**
     Add a ship to the grid. The ship will be placed at (x,y) and facing the direction given.
+    Output an error message if the arguments are invalids.
     @param x x coordinate, equivalent to A,B,C,...,J converted in Int
     @param y y coordinate
     @param s Ship to place on the Grid 
-    @param direction direction of the ship
+    @param direction direction of the Ship
+    @param output Output (default: ConsoleOutput)
 
-    @throws InvalidCoordinateException if x or y are not between 0 and Grid size
-    @throws InvalidDirectionException if direction is not part of VALID_DIRECTIONS
     @return Option[Grid], Some if the Ship was correctly added, else None.
     */
-    def addShip(x: Int, yChar: Char, s: Ship, direction: String): Grid = {
+    def addShip(x: Int, yChar: Char, s: Ship, direction: String, output: Output = ConsoleOutput): Option[Grid] = {
 
         // Convert y to Int (index in alphabet)
         val y = yChar.toUpper.toInt - 'A'.toInt
 
         // Tests data provided
-        if(!yChar.isLetter) throw new InvalidCoordinateException("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
-        if(y > this.size-1 || y < 0) throw new InvalidCoordinateException("y must be between A and " + (this.size + 'A' - 1).toChar + ".")
-        if(x > this.size-1 || x < 0) throw new InvalidCoordinateException("x must be between 0 and " + (this.size - 1) + ".")
-        if(!Grid.VALID_DIRECTIONS.contains(direction)) 
-            throw new InvalidDirectionException("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
+        if(!yChar.isLetter) {
+            output.displayError("y must be a letter between A and " + (this.size + 'A' - 1).toChar + ".")
+            None
+        }    
+        if(y > this.size-1 || y < 0) {
+            output.displayError("y must be between A and " + (this.size + 'A' - 1).toChar + ".")
+            None
+        }
+        if(x > this.size-1 || x < 0) {
+            output.displayError("x must be between 0 and " + (this.size - 1) + ".")
+            None
+        }
+        if(!Grid.VALID_DIRECTIONS.contains(direction)) {
+            output.displayError("direction must be a value in [\"" + (Grid.VALID_DIRECTIONS mkString "\", \"") + "\"].")
+            None
+        }
 
         // Attempt to place the Ship
         val cellsToCheck = (x,y) +: this.getCellsToCheck(x,y,direction,s.size)
 
         // Test if it overlaps a Ship
-        cellsToCheck.foreach(tuple => {
-            if (this.isShipHere(tuple._1, tuple._2))
-                throw new ShipOverlapsException("The Ship you are trying to add is overlapping another one.")
-        })
+        if(cellsToCheck.exists(tuple => this.isShipHere(tuple._1, tuple._2))) {
+            output.displayError("The Ship you are trying to add is overlapping another one.")
+            return None
+        }
 
         // Test if it is out of grid
-        cellsToCheck.foreach(tuple => {
-            if(tuple._1 < 0||tuple._2 < 0||tuple._1 >= this.size||tuple._2 >= this.size) 
-                throw new ShipOutOfGridException("The Ship you are trying to add is out of the grid.")
-        })
+        if(cellsToCheck.exists(tuple => tuple._1 < 0||tuple._2 < 0||tuple._1 >= this.size||tuple._2 >= this.size)) {
+            output.displayError("The Ship you are trying to add is out of the grid.")
+            return None
+        }
 
         // Everything ok, place the Ship
         val newPositions = this.updatePositions(this.positions, cellsToCheck, s.symbol)
         val newShips = this.ships :+ s
         
-        this.copy(positions = newPositions, ships = newShips)        
+        Some(this.copy(positions = newPositions, ships = newShips))
     }
 
     /**

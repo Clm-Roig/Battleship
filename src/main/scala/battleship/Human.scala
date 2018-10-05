@@ -45,7 +45,7 @@ case class Human(name: String, myGrid: Grid = new Grid(), score: Int = 0,
         output.get.display("Enter the direction (N, S, E or W) of the ship.")
         val dir = this.askToEnterDirection()
         try {
-            val newGrid = this.myGrid.addShip(x,y,ship,dir)
+            val newGrid = this.myGrid.addShip(x,y,ship,dir).get
             this.copy(myGrid = newGrid)
         } catch {
             case e: Exception => {

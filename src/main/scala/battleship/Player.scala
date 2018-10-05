@@ -24,7 +24,7 @@ trait Player {
     /**
         Ask the player to enter coordinate for a shoot.
         
-        @return (Int,Int) x coordinate, y coordinate
+        @return (Int,Int) x coordinate, y coordinate.
     */
     def askForShootCoordinates(): (Int,Int)
 
@@ -32,7 +32,7 @@ trait Player {
         Ask the player to place a Ship. 
         @param ship Ship to place
 
-        @return Player, a new Player with the Ship placed
+        @return Player, a new Player with the Ship placed.
     */
     def askToPlaceAShip(ship: Ship): Player
 }
