@@ -12,7 +12,7 @@ Open a terminal, cd to the project folder and then run the *sbt run* command. Yo
 ### .jar file
 You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below).
 
-### Config file
+### Config file
 You can specify the number of of games to play when you are testing AIs in the *application.conf* file (default: 100).
 
 ## Main classes
