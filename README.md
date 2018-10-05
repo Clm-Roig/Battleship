@@ -6,7 +6,6 @@ I developed this game during my 5th year at Polytech Montpellier, in CS & Manage
 :warning: The user interface is graphically optimised for Linux (usage of console colors, tested), it should be ok for MacOS (need to be tested) but it doesn't work on Windows.
 
 ## How to use it?
-
 ### With SBT 
 Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
 
