@@ -12,7 +12,7 @@ import com.typesafe.config.{ Config, ConfigFactory }
 object TestAI extends App {
     // Get config var
     val config = ConfigFactory.parseFile(new File("application.conf"))
-    val NB_OF_GAMES_TO_PLAY = config.getInt("nbOfGames")
+    val NB_OF_GAMES_TO_PLAY = config.getInt("nbOfGamesToPlayWhenTestingAI")
 
     // ===== CONST
     val GAME_TYPES = Array(
