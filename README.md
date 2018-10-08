@@ -7,13 +7,13 @@ I developed this game during my 5th year at Polytech Montpellier, in CS & Manage
 
 ## How to use it?
 ### With SBT 
-Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI. 
+Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI (see below, **"Main classes"** seciton).
 
 ### .jar file
-You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use (see below).
+You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use.
 
 ### Config file
-You can specify the number of of games to play when you are testing AIs in the *application.conf* file (default: 100).
+You can specify the number of games to play when you are testing AIs in the *application.conf* file (default: 100).
 
 ## Main classes
 ### BattleShipGame :man: :crossed_swords: :woman: :man: :crossed_swords: :robot:
