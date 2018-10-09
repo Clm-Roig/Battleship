@@ -7,7 +7,7 @@ I developed this game during my 5th year at Polytech Montpellier, in CS & Manage
 
 ## How to use it?
 ### With SBT 
-Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI (see below, **"Main classes"** seciton).
+Open a terminal, cd to the project folder and then run the *sbt run* command. You wil be asked to chose between 2 main classes: BattleShipGame and TestAI (see below, **"Main classes"** section).
 
 ### .jar file
 You can also generate the .jar file and specify in the MANIFEST.MF file which main class you want to use.
