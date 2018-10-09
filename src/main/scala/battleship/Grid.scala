@@ -7,7 +7,7 @@ import scala.annotation.tailrec
     At initialization, the grid is filled with water ("W" char).
     | 
    -|-------------- y ---------------->
-    |       0   1   2   3   4   5 ...
+    |       A   B   C   D   E   F ...
     |      _______________________
     |   0 |_W_|_W_|_W_|_W_|_W_|_W_|         N
     x   1 |_W_|_W_|_W_|_W_|_W_|_W_|         Λ
